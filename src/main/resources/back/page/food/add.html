@@ -70,10 +70,10 @@
           </el-form-item>
           <el-form-item
             label="Category"
-            prop="categoryId"
+            prop="category.id"
           >
             <el-select
-              v-model="ruleForm.categoryId"
+              v-model="ruleForm.category.id"
               placeholder="Please choose the food category"
             >
               <el-option v-for="(item,index) in dishList" :key="index" :label="item.name" :value="item.id" />

@@ -7,8 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface DishService {
 
-    @Transactional
     void save(DishDto dishDto);
 
     Page<Dish> findAllByNameContains(int page, int pageSize, String nameContains);
+
+    DishDto getDishDtoById(Long id);
+
+    void update(DishDto dishDto);
 }

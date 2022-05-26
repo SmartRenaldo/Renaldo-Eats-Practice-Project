@@ -53,7 +53,8 @@ public class FileController {
     @GetMapping("/download")
     public void download(HttpServletResponse response, String name) {
         try (FileInputStream fis = new FileInputStream(basePath + name);
-             ServletOutputStream sos = response.getOutputStream()) {
+             ServletOutputStream sos = response.getOutputStream()
+        ) {
             response.setContentType("image/jpeg");
             byte[] bytes = new byte[1024];
             int len = 0;

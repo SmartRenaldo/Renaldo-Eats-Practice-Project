@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +31,9 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private DishOptionService dishOptionService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     @Transactional
     public void save(DishDto dishDto) {
@@ -39,17 +44,6 @@ public class DishServiceImpl implements DishService {
 
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDto, dish, "options", "categoryId", "copies");
-        /*dish.setCategory(dishDto.getCategory());
-        dish.setCode(dishDto.getCode());
-        dish.setName(dishDto.getName());
-        dish.setSort(dishDto.getSort());
-        dish.setDateCreated(dishDto.getDateCreated());
-        dish.setDateModified(dishDto.getDateModified());
-        dish.setDescription(dishDto.getDescription());
-        dish.setId(dishDto.getId());
-        dish.setImage(dishDto.getImage());
-        dish.setPrice(dishDto.getPrice());
-        dish.setStatus(dishDto.getStatus());*/
 
         dishRepository.save(dish);
 
@@ -74,6 +68,34 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    @Autowired
-    private CategoryService categoryService;
+    @Override
+    @Transactional
+    public DishDto getDishDtoById(Long id) {
+        Optional<Dish> byId = dishRepository.findById(id);
+
+        if (byId.isPresent()) {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(byId.get(), dishDto);
+            List<DishOption> dishOptions = dishOptionService.findByDish(byId.get());
+            dishDto.setOptions(dishOptions);
+
+            return dishDto;
+        }
+
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public void update(DishDto dishDto) {
+        dishRepository.updateDishNameCategoryPriceImageAndDescriptionById(dishDto.getName(), dishDto.getCategory()
+                , dishDto.getPrice(), dishDto.getImage(), dishDto.getDescription(), dishDto.getId());
+        Optional<Dish> byId = dishRepository.findById(dishDto.getId());
+        Dish dish = byId.get();
+        dishOptionService.deleteAllByDish(dish);
+
+        List<DishOption> dishOptions = dishDto.getOptions().stream().peek((option) ->
+                option.setDish(dish)).collect(Collectors.toList());
+        dishOptionService.saveAll(dishOptions);
+    }
 }

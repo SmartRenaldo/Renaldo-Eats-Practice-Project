@@ -47,4 +47,25 @@ public class DishController {
     public R<Page<Dish>> page(int page, int pageSize, String name) {
         return R.success(dishService.findAllByNameContains(page, pageSize, name));
     }
+
+    @GetMapping("/{id}")
+    public R<DishDto> getDishDtoById(@PathVariable Long id) {
+        DishDto dishDto = dishService.getDishDtoById(id);
+
+        if (dishDto == null) {
+            return R.error("No data!");
+        }
+
+        return R.success(dishDto);
+    }
+
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody DishDto dishDto) {
+        String empUsername = (String) request.getSession().getAttribute("employee");
+        BaseContextUtils.setCurrentUsername(empUsername);
+
+        dishService.update(dishDto);
+
+        return R.success("Save successfully!");
+    }
 }

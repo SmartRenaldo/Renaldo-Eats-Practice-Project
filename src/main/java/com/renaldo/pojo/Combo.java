@@ -1,5 +1,6 @@
 package com.renaldo.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -54,9 +55,11 @@ public class Combo implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date dateCreated = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date dateModified = new Date();
 }

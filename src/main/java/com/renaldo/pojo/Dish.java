@@ -1,5 +1,6 @@
 package com.renaldo.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,6 +13,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * use @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") before date attribute
+ * can avoid the following problem:
+ * Resolved [org.springframework.http.converter.HttpMessageNotReadableException:
+ * JSON parse error: Cannot deserialize value of type `java.util.Date` from String
+ * "2021-10-01 00:00:00": not a valid representation (error: Failed to parse Date
+ * value '2021-10-01 00:00:00': Cannot parse date "2021-10-01 00:00:00": while it
+ * seems to fit format 'yyyy-MM-dd'T'HH:mm:ss.SSSX', parsing fails (leniency? null)); nested exception is
+ * com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.util.Date`
+ * from String "2021-10-01 00:00:00": not a valid representation (error: Failed to parse Date value '2021-10-01 00:00:00': Cannot parse date "2021-10-01 00:00:00": while it seems to fit format 'yyyy-MM-dd'T'HH:mm:ss.SSSX',
+ * parsing fails (leniency? null))<LF> at [Source: (PushbackInputStream); line: 3, column: 15]
+ * (through reference chain: houseHistory.entity.House["publish"])]
+ */
 @Entity
 @Table(name = "tb_dish",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
@@ -51,10 +65,12 @@ public class Dish implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date dateCreated = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date dateModified = new Date();
 
 }
