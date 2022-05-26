@@ -34,7 +34,6 @@ public class LoginFilter implements Filter {
                 "/employees/logout",
                 "/back/**",
                 "/front/**",
-                "/dishes",
                 "/common/**",
         };
 

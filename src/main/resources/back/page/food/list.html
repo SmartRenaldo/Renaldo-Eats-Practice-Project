@@ -66,7 +66,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="categoryName"
+          prop="category.name"
           label="CATEGORY"
         ></el-table-column>
         <el-table-column label="PRICE">
@@ -96,7 +96,7 @@
               class="blueBug"
               @click="addFoodtype(scope.row.id)"
             >
-              修改
+              Modify
             </el-button>
             <el-button
               type="text"
@@ -112,7 +112,7 @@
               class="delBut non"
               @click="deleteHandle('单删', scope.row.id)"
             >
-              删除
+              Delete
             </el-button>
           </template>
         </el-table-column>
@@ -186,7 +186,7 @@
               window.parent.menuHandle({
                 id: '4',
                 url: '/back/page/food/add.html',
-                name: '添加菜品'
+                name: 'Add Dish'
               },true)
             } else {
               window.parent.menuHandle({

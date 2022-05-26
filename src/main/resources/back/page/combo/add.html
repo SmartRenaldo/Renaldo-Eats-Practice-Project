@@ -192,9 +192,9 @@
             <el-form-item label="套餐菜品:" class="setmealFood">
               <el-form-item>
                 <div class="addDish">
-                  <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + 添加菜品</span>
+                  <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + Add Dish</span>
                   <div v-if="dishTable.length != 0" class="content">
-                    <div class="addBut" style="margin-bottom: 20px" @click="openAddDish">+ 添加菜品</div>
+                    <div class="addBut" style="margin-bottom: 20px" @click="openAddDish">+ Add Dish</div>
                     <div class="table">
                       <el-table :data="dishTable" style="width: 100%">
                         <el-table-column prop="name" label="名称" width="180" align="center"></el-table-column>
@@ -261,7 +261,7 @@
         </el-form>
       </div>
       <el-dialog
-        title="添加菜品"
+        title="Add Dish"
         class="addDishList"
         :visible.sync="dialogVisible"
         width="60%"

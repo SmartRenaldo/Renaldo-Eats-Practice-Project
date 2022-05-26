@@ -6,9 +6,7 @@ import com.renaldo.pojo.QCategory;
 import com.renaldo.repositories.CategoryRepository;
 import com.renaldo.service.CategoryService;
 import com.renaldo.service.ComboService;
-import com.renaldo.service.DishService;
 import org.apache.commons.collections4.IterableUtils;
-import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,15 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    DishService dishService;
 
     @Autowired
     ComboService comboService;
@@ -118,5 +114,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         return IterableUtils.toList(categoryRepository.findAll(expression
                 , new QSort(qCategory.sort.asc()).and(new QSort(qCategory.dateModified.desc()))));
+    }
+
+    @Override
+    public Optional<Category> findById(Long id) {
+        Optional<Category> byId = categoryRepository.findById(id);
+        return byId;
     }
 }

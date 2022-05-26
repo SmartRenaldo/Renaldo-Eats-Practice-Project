@@ -31,7 +31,7 @@ public class DishOption implements Serializable {
     private String value;
 
     @CreatedBy
-    String createdBy;
+    private String createdBy;
 
     @LastModifiedBy
     String lastModifiedBy;

@@ -29,12 +29,12 @@ public class Employee implements Serializable {
      * This is because 767 bytes in MySQL version 5.6 (and prior versions),
      * is the stated prefix limitation for InnoDB tables.
      */
-    @Column(columnDefinition = "varchar(32)")
+    @Column(columnDefinition = "varchar(64)")
     private String username;
 
     private String name;
 
-    @Column(columnDefinition = "varchar(32) default 'e10adc3949ba59abbe56e057f20f883e'")
+    @Column(columnDefinition = "varchar(64) default 'e10adc3949ba59abbe56e057f20f883e'")
     private String password;
 
     private String phone;

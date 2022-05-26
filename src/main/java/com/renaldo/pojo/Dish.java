@@ -25,6 +25,7 @@ public class Dish implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "varchar(64)")
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)

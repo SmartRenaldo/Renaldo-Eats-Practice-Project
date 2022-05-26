@@ -28,7 +28,7 @@ public class Combo implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
-    @Column(columnDefinition = "varchar(32)")
+    @Column(columnDefinition = "varchar(64)")
     private String name;
 
     private BigDecimal price;

@@ -31,10 +31,10 @@ public class Category implements Serializable {
      */
     private Integer type;
 
-    @Column(columnDefinition = "varchar(32)")
+    @Column(columnDefinition = "varchar(64)")
     private String name;
 
-    /**
+    /*
      * The order displayed in the app pages
      */
     private Integer sort;
