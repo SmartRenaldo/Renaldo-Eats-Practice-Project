@@ -33,4 +33,8 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
     @Modifying
     void deleteById(@Param("id") Long id);
 
+    @Query("UPDATE Dish set status=:status where id=:id")
+    @Modifying
+    void updateStatusById(@Param("status") Integer status, @Param("id") Long id);
+
 }

@@ -76,4 +76,13 @@ public class DishController {
 
         return R.success("Delete successfully!");
     }
+
+    @PostMapping("/status/{statusCode}")
+    public R<String> updateStatus(@PathVariable Integer statusCode, Long[] ids) {
+        for (Long id : ids) {
+            dishService.updateStatusById(statusCode, id);
+        }
+
+        return R.success("Modify successfully!");
+    }
 }

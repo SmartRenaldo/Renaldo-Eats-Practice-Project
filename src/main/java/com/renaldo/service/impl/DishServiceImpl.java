@@ -132,4 +132,10 @@ public class DishServiceImpl implements DishService {
         dishOptionService.deleteAllByDish(dish);
         dishRepository.deleteById(dish.getId());
     }
+
+    @Override
+    @Transactional
+    public void updateStatusById(Integer statusCode, Long id) {
+        dishRepository.updateStatusById(statusCode, id);
+    }
 }

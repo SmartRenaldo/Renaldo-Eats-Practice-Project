@@ -16,4 +16,6 @@ public interface DishService {
     void update(DishDto dishDto);
 
     void deleteDishById(Long id);
+
+    void updateStatusById(Integer statusCode, Long id);
 }
