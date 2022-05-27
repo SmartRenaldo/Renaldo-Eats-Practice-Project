@@ -19,9 +19,8 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
 
     /**
      * @Query("UPDATE Customer set name=:name where id=:id")
-     *     @Modifying  //modify spring data this is CUD not R
-     *     @Transactional
-     *     int updateCustomerNameById(@Param("name") String name, @Param("id")Long id);
+     * @Modifying //modify spring data this is CUD not R
+     * @Transactional int updateCustomerNameById(@Param("name") String name, @Param("id")Long id);
      */
 
     @Query("UPDATE Dish set name=:name, category=:category, price=:price, image=:image, description=:description where id=:id")
@@ -29,4 +28,9 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
     int updateDishNameCategoryPriceImageAndDescriptionById(@Param("name") String name
             , @Param("category") Category category, @Param("price") BigDecimal price
             , @Param("image") String image, @Param("description") String description, @Param("id") Long id);
+
+    @Query("DELETE FROM Dish where id=:id")
+    @Modifying
+    void deleteById(@Param("id") Long id);
+
 }

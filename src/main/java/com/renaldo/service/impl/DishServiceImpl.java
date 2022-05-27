@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -85,6 +86,18 @@ public class DishServiceImpl implements DishService {
         return null;
     }
 
+    /**
+     * the method in DishOptionRepository deleteAllByDish(Dish dish) should be override.
+     * This means two annotations need to be added:
+     *      `@Query("DELETE FROM DishOption where dish=:dish")`
+     *      `@Modifying`
+     * If this method is not be overrode, this delete method will delete the dependant data (normally will fail),
+     * because of foreign key constraints
+     * Error message: Cannot delete or update a parent row: a foreign key constraint fails
+     *      (`renaldo_eats`.`tb_dish`, CONSTRAINT `FKq4jvrf5j7puei9vv2otm4e92s` FOREIGN KEY (`category_id`)
+     *      REFERENCES `tb_category` (`id`))
+     * @param dishDto
+     */
     @Override
     @Transactional
     public void update(DishDto dishDto) {
@@ -97,5 +110,26 @@ public class DishServiceImpl implements DishService {
         List<DishOption> dishOptions = dishDto.getOptions().stream().peek((option) ->
                 option.setDish(dish)).collect(Collectors.toList());
         dishOptionService.saveAll(dishOptions);
+    }
+
+    /**
+     * the method in DishRepository deleteById(@Param("id") Long id) should be override.
+     * This means this method should be specified like this:
+     *      `@Query("DELETE FROM Dish where id=:id")`
+     *      `@Modifying`
+     *      `void deleteById(@Param("id") Long id);`
+     * If this method is not be overrode, this delete method will delete the dependant data (normally will fail),
+     * because of foreign key constraints
+     * Error message: Cannot delete or update a parent row: a foreign key constraint fails
+     *      (`renaldo_eats`.`tb_dish`, CONSTRAINT `FKq4jvrf5j7puei9vv2otm4e92s` FOREIGN KEY (`category_id`)
+     *      REFERENCES `tb_category` (`id`))
+     */
+    @Override
+    @Transactional
+    public void deleteDishById(Long id) {
+        Optional<Dish> byId = dishRepository.findById(id);
+        Dish dish = byId.get();
+        dishOptionService.deleteAllByDish(dish);
+        dishRepository.deleteById(dish.getId());
     }
 }

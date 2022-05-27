@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -66,6 +65,15 @@ public class DishController {
 
         dishService.update(dishDto);
 
-        return R.success("Save successfully!");
+        return R.success("Modify successfully!");
+    }
+
+    @DeleteMapping
+    public R<String> delete(Long[] id) {
+        for (Long i : id) {
+            dishService.deleteDishById(i);
+        }
+
+        return R.success("Delete successfully!");
     }
 }

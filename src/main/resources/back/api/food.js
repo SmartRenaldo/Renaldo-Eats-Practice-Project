@@ -8,11 +8,11 @@ const getDishPage = (params) => {
 }
 
 // 删除接口
-const deleteDish = (ids) => {
+const deleteDish = (id) => {
   return $axios({
     url: '/dishes',
     method: 'delete',
-    params: { ids }
+    params: { id }
   })
 }
 

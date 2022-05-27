@@ -15,4 +15,5 @@ public interface DishOptionService {
     List<DishOption> findByDish(Dish dish);
 
     void deleteAllByDish(Dish dish);
+
 }

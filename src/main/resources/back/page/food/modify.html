@@ -70,10 +70,10 @@
         </el-form-item>
         <el-form-item
                 label="Category:"
-                prop="categoryId"
+                prop="category.id"
         >
           <el-select
-                  v-model="ruleForm.categoryId"
+                  v-model="ruleForm.category.id"
                   placeholder="Please choose the category"
           >
             <el-option v-for="(item,index) in dishList" :key="index" :label="item.name" :value="item.id" />
@@ -279,7 +279,7 @@
           'description': '',
           'dishOptions': [],
           'status': true,
-          categoryId: ''
+          'category.id': ''
         },
         mak: false
       }
@@ -290,7 +290,7 @@
           'name': [
             {'required': true, 'message': 'Please fill in the name of the dish', 'trigger': 'blur'}
           ],
-          'categoryId': [
+          'category.id': [
             {'required': true, 'message': 'Please choose the category', 'trigger': 'change'}
           ],
           'price': [
@@ -448,7 +448,7 @@
             // params.options = this.dishOptions
             params.status = this.ruleForm ? 1 : 0
             params.price *= 100
-            params.categoryId = this.ruleForm.categoryId
+            params.category.id = this.ruleForm.category.id
             params.options = this.dishOptions.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
             delete params.dishOptions
             if(!this.imageUrl){
@@ -475,7 +475,7 @@
                       'description': '',
                       'dishOptions': [],
                       'status': true,
-                      categoryId: ''
+                      'category.id': ''
                     }
                   }
                 } else {

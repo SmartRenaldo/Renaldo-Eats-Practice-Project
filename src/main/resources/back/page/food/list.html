@@ -56,12 +56,12 @@
         ></el-table-column>
         <el-table-column prop="image" label="IMAGE" align="center">
           <template slot-scope="{ row }">
-            <el-image style="width: auto; height: 40px; border:none;cursor: pointer;" 
-            :src="getImage(row.image)" 
+            <el-image style="width: auto; height: 40px; border:none;cursor: pointer;"
+            :src="getImage(row.image)"
             :preview-src-list="[ `/common/download?name=${row.image}` ]" >
             <div slot="error" class="image-slot">
               <img src="../../images/noImg.png" style="width: auto; height: 40px; border:none;" >
-            </div>  
+            </div>
           </el-image>
           </template>
         </el-table-column>
@@ -191,7 +191,7 @@
             } else {
               window.parent.menuHandle({
                 id: '4',
-                url: '/back/page/food/add.html?id='+st,
+                url: '/back/page/food/modify.html?id='+st,
                 name: 'Modify Dish'
               },true)
             }
@@ -201,19 +201,19 @@
           deleteHandle (type, id) {
             if (type === '批量' && id === null) {
               if (this.checkList.length === 0) {
-                return this.$message.error('请选择删除对象')
+                return this.$message.error('Please select items to delete')
               }
             }
-            this.$confirm('确认删除该菜品, 是否继续?', '确定删除', {
-              'confirmButtonText': '确定',
-              'cancelButtonText': '取消',
+            this.$confirm('Confirm to delete this dish, do you want to continue?', 'Delete', {
+              'confirmButtonText': 'Confirm',
+              'cancelButtonText': 'Cancel',
             }).then(() => {
               deleteDish(type === '批量' ? this.checkList.join(',') : id).then(res => {
                 if (res.code === 1) {
-                  this.$message.success('删除成功！')
+                  this.$message.success('Delete successfully!')
                   this.handleQuery()
                 } else {
-                  this.$message.error(res.msg || '操作失败')
+                  this.$message.error(res.msg || 'Operation failed!')
                 }
               }).catch(err => {
                 this.$message.error('The request went wrong: ' + err)
@@ -226,7 +226,7 @@
             let params = {}
             if (typeof row === 'string' ) {
               if (this.checkList.length === 0) {
-                this.$message.error('批量操作，请先勾选操作菜品！')
+                this.$message.error('Batch operation. Please select the operation dishes first!')
                 return false
               }
               params.id = this.checkList.join(',')
@@ -236,18 +236,18 @@
               params.status = row.status ? '0' : '1'
             }
             this.dishState = params
-            this.$confirm('确认更改该菜品状态?', '提示', {
-              'confirmButtonText': '确定',
-              'cancelButtonText': '取消',
+            this.$confirm('Are you sure to change the status of this dish?', 'Prompt', {
+              'confirmButtonText': 'Confirm',
+              'cancelButtonText': 'Cancel',
               'type': 'warning'
             }).then(() => {
               // 起售停售---批量起售停售接口
               dishStatusByStatus(this.dishState).then(res => {
                 if (res.code === 1) {
-                  this.$message.success('菜品状态已经更改成功！')
+                  this.$message.success('The status of the dish has been changed successfully!')
                   this.handleQuery()
                 } else {
-                  this.$message.error(res.msg || '操作失败')
+                  this.$message.error(res.msg || 'Operation failed!')
                 }
               }).catch(err => {
                   this.$message.error('The request went wrong: ' + err)
