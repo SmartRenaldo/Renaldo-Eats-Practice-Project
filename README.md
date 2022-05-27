@@ -4,6 +4,6 @@ Introduction: This project is an online food delivery solution. Target users are
 
 Back end: Used techniques include Maven, Spring Boot, Spring Data JPA, Hibernate, Query DSL JPA, Spring MVC, RESTful API, Jackson, Druid, ThreadLocal, Slf4j, WebFilter, Session, Lombok, Commons-Collections4, MySQL-Connector-JAVA, JpaAuditing, Stream, BeanUtils, and Data Transfer Object.
 
-Front end: Front-end material comes from the Internet. Debugged with Node.js and Chrome. Modified code according to requirements and back-end code. Designed Logos by Photoshop.
+Front end: Front-end material comes from the Internet. Debugged by Node.js and Chrome. Modified code according to requirements and back-end code. Designed Logos by Photoshop.
 
 Database: MySQL
