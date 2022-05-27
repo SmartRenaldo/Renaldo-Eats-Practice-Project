@@ -9,6 +9,7 @@ import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class DishController {
     }
 
     /**
-     * paging by page, pageSize, querying by name (%name%), and sorting by `dateModified` desc
+     * paging by page, pageSize, querying by name (%name%) (priority), and sorting by `dateModified` desc
      * @param page
      * @param pageSize
      * @param name
@@ -89,8 +90,16 @@ public class DishController {
      */
     @GetMapping("/list")
     public R<List<Dish>> list(DishDto dishDto) {
-        List<Dish> dishByCategory = dishService.getDishByCategory(dishDto);
+        if (dishDto.getCategoryId() != null && dishDto.getCategoryId() > -1) {
+            List<Dish> dishByCategory = dishService.getDishByCategory(dishDto);
 
-        return R.success(dishByCategory);
+            return R.success(dishByCategory);
+        } else if (StringUtils.hasText(dishDto.getName())){
+            List<Dish> dishByName = dishService.getDishByName(dishDto);
+
+            return R.success(dishByName);
+        }
+
+        return null;
     }
 }

@@ -16,7 +16,12 @@ import java.util.List;
 
 public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
         , QuerydslPredicateExecutor<Dish> {
-    Page<Dish> findAllByNameContains(Pageable pageable, String nameContains);
+
+    @Query("SELECT d FROM Dish d ORDER BY d.category.sort, d.dateModified desc ")
+    Page<Dish> findAll(Pageable pageable);
+
+    @Query("SELECT d FROM Dish d WHERE d.name LIKE %:nameContains% ORDER BY d.category.sort, d.dateModified desc ")
+    Page<Dish> findAllByNameContains(@Param("nameContains") String nameContains, Pageable pageable);
 
     /**
      * @Query("UPDATE Customer set name=:name where id=:id")
@@ -46,4 +51,7 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
      */
     @Query("SELECT d FROM Dish d where d.category.id=:categoryId")
     List<Dish> getDishByCategoryId(@Param("categoryId") Long categoryId, Sort sort);
+
+    List<Dish> getDishByNameContains(String name, Sort sort);
+
 }

@@ -58,13 +58,10 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public Page<Dish> findAllByNameContains(int page, int pageSize, String nameContains) {
-        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
-        Sort and = sort.by(Dish::getDateModified).descending();
-
         if (nameContains == null) {
-            return dishRepository.findAll(PageRequest.of(page - 1, pageSize, and));
+            return dishRepository.findAll(PageRequest.of(page - 1, pageSize));
         } else {
-            return dishRepository.findAllByNameContains(PageRequest.of(page - 1, pageSize, and), nameContains);
+            return dishRepository.findAllByNameContains(nameContains, PageRequest.of(page - 1, pageSize));
         }
     }
 
@@ -145,5 +142,13 @@ public class DishServiceImpl implements DishService {
         Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
 
         return dishRepository.getDishByCategoryId(dishDto.getCategoryId(), and);
+    }
+
+    @Override
+    public List<Dish> getDishByName(DishDto dishDto) {
+        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
+        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
+
+        return dishRepository.getDishByNameContains(dishDto.getName(), sort);
     }
 }
