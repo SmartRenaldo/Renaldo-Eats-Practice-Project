@@ -344,7 +344,7 @@
             // this.imageUrl = res.data.data.image
             this.imageUrl = `/common/download?name=${res.data.image}`
           } else {
-            this.$message.error(res.msg || '操作失败')
+            this.$message.error(res.msg || 'Operation failed')
           }
         })
       },
@@ -391,7 +391,7 @@
           if (res.code === 1) {
             this.dishList = res.data
           } else {
-            this.$message.error(res.msg || '操作失败')
+            this.$message.error(res.msg || 'Operation failed')
           }
         })
       },
@@ -518,7 +518,7 @@
           const suffix = file.name.split('.')[1]
           const size = file.size / 1024 / 1024 < 2
           if(['png','jpeg','jpg'].indexOf(suffix) < 0){
-            this.$message.error('he picture only supports png, jpeg, jpg format!')
+            this.$message.error('The picture only supports png, jpeg, jpg format!')
             this.$refs.upload.clearFiles()
             return false
           }

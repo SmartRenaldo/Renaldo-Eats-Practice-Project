@@ -174,22 +174,22 @@
           class="demo-ruleForm"
         >
           <div>
-            <el-form-item label="套餐名称:" prop="name" >
-              <el-input v-model="ruleForm.name" placeholder="请填写套餐名称" maxlength="20"/>
+            <el-form-item label="Name:" prop="name" >
+              <el-input v-model="ruleForm.name" placeholder="Please fill in the combo name" maxlength="20"/>
             </el-form-item>
-            <el-form-item label="套餐分类:" prop="idType">
-              <el-select v-model="ruleForm.idType" placeholder="请选择套餐分类" @change="$forceUpdate()">
+            <el-form-item label="Category:" prop="idType">
+              <el-select v-model="ruleForm.idType" placeholder="Please select the category" @change="$forceUpdate()">
                 <el-option v-for="(item, index) in setMealList" :key="index" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="套餐价格:" prop="price">
-              <el-input v-model="ruleForm.price" placeholder="请设置套餐价格" />
+            <el-form-item label="Price:" prop="price">
+              <el-input v-model="ruleForm.price" placeholder="Please set the price" />
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="套餐菜品:" class="setmealFood">
+            <el-form-item label="Dishes:" class="setmealFood">
               <el-form-item>
                 <div class="addDish">
                   <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + Add Dish</span>
@@ -212,7 +212,7 @@
                             ></el-input-number>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="address" label="操作" width="180px;" align="center">
+                        <el-table-column prop="address" label="Operation" width="180px;" align="center">
                           <template slot-scope="scope">
                             <el-button type="text" size="small" @click="delDishHandle(scope.$index)"> 删除 </el-button>
                           </template>
@@ -225,7 +225,7 @@
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="套餐图片:" class="uploadImg">
+            <el-form-item label="Image:" class="uploadImg">
               <el-upload
                 class="avatar-uploader"
                 action="/common/upload"
@@ -240,21 +240,21 @@
             </el-form-item>
           </div>
           <div class="address">
-            <el-form-item label="套餐描述:">
-              <el-input v-model="ruleForm.description" type="textarea" :rows="3" placeholder="套餐描述，最长200字" maxlength="200"/>
+            <el-form-item label="Description:">
+              <el-input v-model="ruleForm.description" type="textarea" :rows="3" placeholder="Description, up to 200 words" maxlength="200"/>
             </el-form-item>
           </div>
           <div class="subBox address">
             <el-form-item>
-              <el-button @click="goBack()"> 取消 </el-button>
-              <el-button type="primary" @click="submitForm('ruleForm', false)"> 保存 </el-button>
+              <el-button @click="goBack()"> Cancel </el-button>
+              <el-button type="primary" @click="submitForm('ruleForm', false)"> Save </el-button>
               <el-button
                 v-if="actionType == 'add'"
                 type="primary"
                 class="continue"
                 @click="submitForm('ruleForm', true)"
               >
-                保存并继续添加套餐
+                Save and continue to add
               </el-button>
             </el-form-item>
           </div>
@@ -295,7 +295,7 @@
             <div class="tabList">
               <div class="table">
                 <div v-if="dishAddList.length == 0" style="padding-left:10px">
-                  暂无菜品!
+                  No dishes yet!
                 </div>
                 <el-checkbox-group
                   v-if="dishAddList.length > 0"
@@ -324,7 +324,7 @@
           </div>
           <div class="ritCont">
             <div class="tit">
-              已选菜品({{ checkedList.length }})
+              Selected dishes({{ checkedList.length }})
             </div>
             <div class="items">
               <div
@@ -349,8 +349,8 @@
         </div>
         
         <span slot="footer" class="dialog-footer">
-          <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="addTableList">确 定</el-button>
+          <el-button @click="handleClose">Cancel</el-button>
+          <el-button type="primary" @click="addTableList">Confirm</el-button>
         </span>
       </el-dialog>
     </div>
@@ -405,12 +405,12 @@
             return {
               name: {
                 required: true,
-                message: '请输入套餐名称',
+                message: 'Please enter the combo name',
                 trigger: 'blur',
               },
               idType: {
                 required: true,
-                message: '请选择套餐分类',
+                message: 'Please choose the category',
                 trigger: 'change',
               },
               price: {
@@ -418,17 +418,17 @@
                 // 'message': '请输入套餐价格',
                 validator: (rules, value, callback) => {
                     if (!value) {
-                      callback(new Error('请填写菜品价格'))
+                      callback(new Error('Please set the price'))
                     } else {
                       const reg = /^\d+(\.\d{0,2})?$/
                       if (reg.test(value)) {
                         if(value < 10000){
                           callback()
                         }else{
-                          callback(new Error('菜品价格小于10000'))
+                          callback(new Error('The price of the dish is less than 10000'))
                         }
                       } else {
-                        callback(new Error('菜品价格格式只能为数字,且最多保留两位小数'))
+                        callback(new Error('The price format of dishes can only be numbers, and keep up to two decimal places'))
                       }
                     }
                   },
@@ -470,7 +470,7 @@
                 this.ruleForm.idType = res.data.categoryId
                 // this.ruleForm.password = ''
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.msg || 'Operation failed')
               }
             })
           },
@@ -483,7 +483,7 @@
               if (res.code === 1) {
                 this.setMealList = res.data.map((obj) => ({ ...obj, idType: obj.id }))
               } else {
-                this.$message.error(res.msg || '操作失败')
+                this.$message.error(res.msg || 'Operation failed')
               }
             })
           },
@@ -539,11 +539,11 @@
                 prams.status = this.ruleForm ? 1 : 0
                 prams.categoryId = this.ruleForm.idType
                 if(prams.setmealDishes.length < 1){
-                  this.$message.error('请选择菜品！')
+                  this.$message.error('Please choose a dish!')
                   return 
                 }
                 if(!this.imageUrl){
-                  this.$message.error('请上传套餐图片')
+                  this.$message.error('Please upload the image')
                   return 
                 }
                 // delete prams.dishList
@@ -552,7 +552,7 @@
                   addSetmeal(prams)
                     .then((res) => {
                       if (res.code === 1) {
-                        this.$message.success('套餐添加成功！')
+                        this.$message.success('Add successfully!')
                         if (!st) {
                           this.goBack()
                         } else {
@@ -574,7 +574,7 @@
                           this.imageUrl = ''
                         }
                       } else {
-                        this.$message.error(res.msg || '操作失败')
+                        this.$message.error(res.msg || 'Operation failed!')
                       }
                     })
                     .catch((err) => {
@@ -585,10 +585,10 @@
                   editSetmeal(prams)
                     .then((res) => {
                       if (res.code === 1) {
-                        this.$message.success('套餐修改成功！')
+                        this.$message.success('Modify successfully!')
                         this.goBack()
                       } else {
-                        this.$message.error(res.msg || '操作失败')
+                        this.$message.error(res.msg || 'Operation failed!')
                       }
                     })
                     .catch((err) => {
@@ -602,7 +602,7 @@
           },
           handleAvatarSuccess (response, file, fileList) {
             // this.imageUrl = response.data
-            if(response.code === 0 && response.msg === '未登录'){
+            if(response.code === 0 && response.msg === 'NOTLOGIN'){
               window.top.location.href = '/back/page/login/login.html'
             }else{
               this.imageUrl = `/common/download?name=${response.data}`
@@ -615,12 +615,12 @@
               const suffix = file.name.split('.')[1]
               const size = file.size / 1024 / 1024 < 2
               if(['png','jpeg','jpg'].indexOf(suffix) < 0){
-                this.$message.error('上传图片只支持 png、jpeg、jpg 格式！')
+                this.$message.error('The picture only supports png, jpeg, jpg format!')
                 this.$refs.upload.clearFiles()
                 return false
               }
               if(!size){
-                this.$message.error('上传文件大小不能超过 2MB!')
+                this.$message.error('Upload file size cannot exceed 2MB!')
                 return false
               }
               return file
@@ -631,7 +631,7 @@
               {
                 id: '5',
                 url: '/back/page/combo/list.html',
-                name: '套餐管理',
+                name: 'Combo',
               },
               false
             )
