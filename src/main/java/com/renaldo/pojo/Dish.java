@@ -44,6 +44,7 @@ public class Dish implements Serializable {
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     private BigDecimal price;

@@ -189,7 +189,7 @@
             </el-form-item>
           </div>
           <div>
-            <el-form-item label="Dishes:" class="setmealFood">
+            <el-form-item label="Dish:" class="setmealFood">
               <el-form-item>
                 <div class="addDish">
                   <span v-if="dishTable.length == 0" class="addBut" @click="openAddDish"> + Add Dish</span>
@@ -197,11 +197,11 @@
                     <div class="addBut" style="margin-bottom: 20px" @click="openAddDish">+ Add Dish</div>
                     <div class="table">
                       <el-table :data="dishTable" style="width: 100%">
-                        <el-table-column prop="name" label="名称" width="180" align="center"></el-table-column>
-                        <el-table-column prop="price" label="原价" width="180">
+                        <el-table-column prop="name" label="NAME" width="180" align="center"></el-table-column>
+                        <el-table-column prop="price" label="PRICE" width="180">
                           <template slot-scope="scope"> {{ Number(scope.row.price) / 100 }} </template>
                         </el-table-column>
-                        <el-table-column prop="address" label="份数" align="center">
+                        <el-table-column prop="address" label="COUNT" align="center">
                           <template slot-scope="scope">
                             <el-input-number
                               v-model="scope.row.copies"
@@ -212,9 +212,9 @@
                             ></el-input-number>
                           </template>
                         </el-table-column>
-                        <el-table-column prop="address" label="Operation" width="180px;" align="center">
+                        <el-table-column prop="address" label="OPERATION" width="180px;" align="center">
                           <template slot-scope="scope">
-                            <el-button type="text" size="small" @click="delDishHandle(scope.$index)"> 删除 </el-button>
+                            <el-button type="text" size="small" @click="delDishHandle(scope.$index)"> DELETE </el-button>
                           </template>
                         </el-table-column>
                       </el-table>
@@ -313,8 +313,8 @@
                     >
                       <div class="item">
                         <span style="flex: 3;text-align: left">{{ item.dishName }}</span>
-                        <span>{{ item.status == 0 ? '停售' : '在售' }}</span>
-                        <span>{{ Number(item.price)/100 }}</span>
+                        <span>{{ item.status == 0 ? 'Not for sale' : 'Selling' }}</span>
+                        <span>${{ Number(item.price)/100 }}</span>
                       </div>
                     </el-checkbox>
                   </div>

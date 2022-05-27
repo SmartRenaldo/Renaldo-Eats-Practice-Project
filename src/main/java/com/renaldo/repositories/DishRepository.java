@@ -4,6 +4,7 @@ import com.renaldo.pojo.Category;
 import com.renaldo.pojo.Dish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -37,4 +38,12 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
     @Modifying
     void updateStatusById(@Param("status") Integer status, @Param("id") Long id);
 
+    /**
+     * query associated id (category_id) without using the whole associated class (Category)
+     * @param categoryId
+     * @param sort
+     * @return
+     */
+    @Query("SELECT d FROM Dish d where d.category.id=:categoryId")
+    List<Dish> getDishByCategoryId(@Param("categoryId") Long categoryId, Sort sort);
 }

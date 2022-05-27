@@ -1,9 +1,12 @@
 package com.renaldo.service;
 
 import com.renaldo.dto.DishDto;
+import com.renaldo.pojo.Category;
 import com.renaldo.pojo.Dish;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface DishService {
 
@@ -18,4 +21,6 @@ public interface DishService {
     void deleteDishById(Long id);
 
     void updateStatusById(Integer statusCode, Long id);
+
+    List<Dish> getDishByCategory(DishDto dishDto);
 }

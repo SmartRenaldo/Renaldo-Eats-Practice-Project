@@ -3,6 +3,7 @@ package com.renaldo.controller;
 import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.R;
 import com.renaldo.dto.DishDto;
+import com.renaldo.pojo.Category;
 import com.renaldo.pojo.Dish;
 import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -79,5 +81,16 @@ public class DishController {
         }
 
         return R.success("Modify successfully!");
+    }
+
+    /**
+     * getting dish by category, sorting by category id asc (priority) and date modified desc
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(DishDto dishDto) {
+        List<Dish> dishByCategory = dishService.getDishByCategory(dishDto);
+
+        return R.success(dishByCategory);
     }
 }

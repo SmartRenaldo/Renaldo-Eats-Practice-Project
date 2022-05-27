@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -137,5 +136,14 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public void updateStatusById(Integer statusCode, Long id) {
         dishRepository.updateStatusById(statusCode, id);
+    }
+
+    @Override
+    @Transactional
+    public List<Dish> getDishByCategory(DishDto dishDto) {
+        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
+        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
+
+        return dishRepository.getDishByCategoryId(dishDto.getCategoryId(), and);
     }
 }
