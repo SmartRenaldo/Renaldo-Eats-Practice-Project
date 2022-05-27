@@ -4,8 +4,6 @@ import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.R;
 import com.renaldo.dto.DishDto;
 import com.renaldo.pojo.Dish;
-import com.renaldo.pojo.DishOption;
-import com.renaldo.service.DishOptionService;
 import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,6 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
-
-    @Autowired
-    private DishOptionService dishOptionService;
 
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody DishDto dishDto) {
