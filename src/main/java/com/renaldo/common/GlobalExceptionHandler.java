@@ -42,4 +42,9 @@ public class GlobalExceptionHandler {
 
         return R.error("Unknown error");
     }
+
+    @ExceptionHandler(CustomException.class)
+    public R<String> customExceptionHandler(CustomException e) {
+        return R.error(e.getMessage());
+    }
 }

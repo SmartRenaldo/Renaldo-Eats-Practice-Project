@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ComboDishService {
     void saveAll(List<ComboDish> comboDishes);
+
+    void deleteAllByComboId(Long[] ids);
 }

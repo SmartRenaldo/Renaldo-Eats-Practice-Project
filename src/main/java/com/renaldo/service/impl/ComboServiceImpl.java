@@ -1,5 +1,6 @@
 package com.renaldo.service.impl;
 
+import com.renaldo.common.CustomException;
 import com.renaldo.dto.ComboDto;
 import com.renaldo.pojo.Combo;
 import com.renaldo.pojo.ComboDish;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,5 +54,18 @@ public class ComboServiceImpl implements ComboService {
         }
 
         return comboRepository.findAllByNameContains(PageRequest.of(page - 1, pageSize), name);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long[] ids) {
+        int count = comboRepository.getSellingStatusCount(ids);
+
+        if (count > 0) {
+            throw new CustomException("Combo is selling. Cannot delete!");
+        }
+
+        comboDishService.deleteAllByComboId(ids);
+        comboRepository.deleteAllById(ids);
     }
 }

@@ -41,4 +41,10 @@ public class ComboController {
         return R.success(comboService.findAllByNameContains(page, pageSize, name));
     }
 
+    @DeleteMapping
+    public R<String> delete(Long ...ids) {
+        comboService.delete(ids);
+        return R.success("Delete successfully!");
+    }
+
 }

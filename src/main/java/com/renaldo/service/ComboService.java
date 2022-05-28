@@ -8,4 +8,6 @@ public interface ComboService {
     void save(ComboDto comboDto);
 
     Page<Combo> findAllByNameContains(int page, int pageSize, String name);
+
+    void delete(Long[] ids);
 }
