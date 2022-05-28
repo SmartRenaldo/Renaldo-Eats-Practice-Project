@@ -77,4 +77,10 @@ public class ComboServiceImpl implements ComboService {
     public Combo getComboById(Long id) {
         return comboRepository.getComboById(id);
     }
+
+    @Override
+    @Transactional
+    public void updateStatusById(Integer statusCode, Long id) {
+        comboRepository.updateStatusById(statusCode, id);
+    }
 }

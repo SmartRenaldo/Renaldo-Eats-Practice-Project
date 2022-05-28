@@ -26,4 +26,8 @@ public interface ComboRepository extends PagingAndSortingRepository<Combo, Long>
     void deleteAllById(@Param("ids") Long[] ids);
 
     Combo getComboById(Long id);
+
+    @Query("UPDATE Combo c set c.status=:status where c.id=:id")
+    @Modifying
+    void updateStatusById(@Param("status") Integer status, @Param("id") Long id);
 }

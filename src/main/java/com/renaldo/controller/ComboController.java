@@ -52,4 +52,13 @@ public class ComboController {
         return R.success(comboService.getComboById(id));
     }
 
+    @PostMapping("/status/{statusCode}")
+    public R<String> updateStatus(@PathVariable Integer statusCode, Long[] ids) {
+        for (Long id : ids) {
+            comboService.updateStatusById(statusCode, id);
+        }
+
+        return R.success("Modify successfully!");
+    }
+
 }
