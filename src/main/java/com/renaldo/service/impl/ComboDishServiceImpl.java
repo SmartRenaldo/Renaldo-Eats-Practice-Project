@@ -31,4 +31,9 @@ public class ComboDishServiceImpl implements ComboDishService {
     public int getCountByDishId(Long dishId) {
         return comboDishRepository.getCountByDishId(dishId);
     }
+
+    @Override
+    public List<ComboDish> getAllByComboId(Long comboId) {
+        return comboDishRepository.getAllByComboId(comboId);
+    }
 }

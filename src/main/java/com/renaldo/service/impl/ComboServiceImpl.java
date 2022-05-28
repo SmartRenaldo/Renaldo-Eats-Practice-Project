@@ -74,8 +74,13 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public Combo getComboById(Long id) {
-        return comboRepository.getComboById(id);
+    public ComboDto getComboDtoById(Long id) {
+        ComboDto comboDto = new ComboDto();
+        Combo combo = comboRepository.getComboById(id);
+        BeanUtils.copyProperties(combo, comboDto);
+        comboDto.setComboDishes(comboDishService.getAllByComboId(id));
+
+        return comboDto;
     }
 
     @Override

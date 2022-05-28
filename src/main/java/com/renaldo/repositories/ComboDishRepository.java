@@ -7,6 +7,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ComboDishRepository extends PagingAndSortingRepository<ComboDish, Long>
         , QuerydslPredicateExecutor<ComboDish> {
 
@@ -16,4 +18,7 @@ public interface ComboDishRepository extends PagingAndSortingRepository<ComboDis
 
     @Query("SELECT COUNT(cd) FROM ComboDish cd WHERE cd.dishId=:dishId")
     int getCountByDishId(@Param("dishId") Long dishId);
+
+    @Query("SELECT cd FROM ComboDish cd WHERE cd.combo.id=:comboId")
+    List<ComboDish> getAllByComboId(@Param("comboId") Long comboId);
 }

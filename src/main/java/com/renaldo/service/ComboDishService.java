@@ -10,4 +10,6 @@ public interface ComboDishService {
     void deleteAllByComboId(Long[] ids);
 
     int getCountByDishId(Long id);
+
+    List<ComboDish> getAllByComboId(Long comboId);
 }

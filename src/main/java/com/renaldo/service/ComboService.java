@@ -11,7 +11,7 @@ public interface ComboService {
 
     void delete(Long[] ids);
 
-    Combo getComboById(Long id);
+    ComboDto getComboDtoById(Long id);
 
     void updateStatusById(Integer statusCode, Long id);
 }

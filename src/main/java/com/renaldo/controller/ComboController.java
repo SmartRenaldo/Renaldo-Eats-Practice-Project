@@ -48,8 +48,8 @@ public class ComboController {
     }
 
     @GetMapping("/{id}")
-    public R<Combo> getComboById(@PathVariable Long id) {
-        return R.success(comboService.getComboById(id));
+    public R<ComboDto> getComboById(@PathVariable Long id) {
+        return R.success(comboService.getComboDtoById(id));
     }
 
     @PostMapping("/status/{statusCode}")
