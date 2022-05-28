@@ -26,4 +26,9 @@ public class ComboDishServiceImpl implements ComboDishService {
     public void deleteAllByComboId(Long[] ids) {
         comboDishRepository.deleteAllByComboId(ids);
     }
+
+    @Override
+    public int getCountByDishId(Long dishId) {
+        return comboDishRepository.getCountByDishId(dishId);
+    }
 }

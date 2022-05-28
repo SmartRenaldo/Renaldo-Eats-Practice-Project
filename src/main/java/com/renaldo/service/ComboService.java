@@ -10,4 +10,6 @@ public interface ComboService {
     Page<Combo> findAllByNameContains(int page, int pageSize, String name);
 
     void delete(Long[] ids);
+
+    Combo getComboById(Long id);
 }

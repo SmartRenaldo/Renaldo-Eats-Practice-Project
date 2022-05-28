@@ -47,4 +47,9 @@ public class ComboController {
         return R.success("Delete successfully!");
     }
 
+    @GetMapping("/{id}")
+    public R<Combo> getComboById(@PathVariable Long id) {
+        return R.success(comboService.getComboById(id));
+    }
+
 }

@@ -25,7 +25,8 @@ public class ComboDish implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long comboId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Combo combo;
 
     private Long dishId;
 

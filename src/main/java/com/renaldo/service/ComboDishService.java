@@ -8,4 +8,6 @@ public interface ComboDishService {
     void saveAll(List<ComboDish> comboDishes);
 
     void deleteAllByComboId(Long[] ids);
+
+    int getCountByDishId(Long id);
 }

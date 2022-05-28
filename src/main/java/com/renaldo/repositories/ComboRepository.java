@@ -24,4 +24,6 @@ public interface ComboRepository extends PagingAndSortingRepository<Combo, Long>
     @Query("DELETE FROM Combo c WHERE c.id IN (:ids)")
     @Modifying
     void deleteAllById(@Param("ids") Long[] ids);
+
+    Combo getComboById(Long id);
 }

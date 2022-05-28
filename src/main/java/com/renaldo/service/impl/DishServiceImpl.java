@@ -1,11 +1,13 @@
 package com.renaldo.service.impl;
 
+import com.renaldo.common.CustomException;
 import com.renaldo.dto.DishDto;
 import com.renaldo.pojo.Category;
 import com.renaldo.pojo.Dish;
 import com.renaldo.pojo.DishOption;
 import com.renaldo.repositories.DishRepository;
 import com.renaldo.service.CategoryService;
+import com.renaldo.service.ComboDishService;
 import com.renaldo.service.DishOptionService;
 import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ComboDishService comboDishService;
 
     @Override
     @Transactional
@@ -125,6 +130,17 @@ public class DishServiceImpl implements DishService {
     public void deleteDishById(Long id) {
         Optional<Dish> byId = dishRepository.findById(id);
         Dish dish = byId.get();
+
+        int count = comboDishService.getCountByDishId(id);
+
+        if (count > 0) {
+            throw new CustomException("Dish '" + dish.getName() + "' is associated with combo. Delete failed!");
+        }
+
+        if (dish.getStatus() == 1) {
+            throw new CustomException("Dish is selling. Cannot delete!");
+        }
+
         dishOptionService.deleteAllByDish(dish);
         dishRepository.deleteById(dish.getId());
     }

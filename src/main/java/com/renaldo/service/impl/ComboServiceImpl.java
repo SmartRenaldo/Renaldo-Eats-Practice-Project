@@ -8,6 +8,7 @@ import com.renaldo.repositories.ComboRepository;
 import com.renaldo.service.CategoryService;
 import com.renaldo.service.ComboDishService;
 import com.renaldo.service.ComboService;
+import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class ComboServiceImpl implements ComboService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private DishService dishService;
+
     @Override
     @Transactional
     public void save(ComboDto comboDto) {
@@ -42,7 +46,7 @@ public class ComboServiceImpl implements ComboService {
         comboRepository.save(combo);
 
         List<ComboDish> comboDishes = comboDto.getComboDishes().stream().peek(i ->
-                i.setComboId(combo.getId())).collect(Collectors.toList());
+                i.setCombo(combo)).collect(Collectors.toList());
 
         comboDishService.saveAll(comboDishes);
     }
@@ -67,5 +71,10 @@ public class ComboServiceImpl implements ComboService {
 
         comboDishService.deleteAllByComboId(ids);
         comboRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public Combo getComboById(Long id) {
+        return comboRepository.getComboById(id);
     }
 }
