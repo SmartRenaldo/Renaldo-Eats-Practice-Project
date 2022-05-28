@@ -6,9 +6,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ComboDishDto extends Combo {
+public class ComboDto extends Combo {
 
     private List<ComboDish> comboDishes;
 
-    private String categoryName;
+    private Long categoryId;
 }

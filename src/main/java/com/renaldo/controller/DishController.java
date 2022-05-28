@@ -34,7 +34,7 @@ public class DishController {
     }
 
     /**
-     * paging by page, pageSize, querying by name (%name%) (priority), and sorting by `dateModified` desc
+     * paging by page and pageSize, querying by name (%name%) (priority), and sorting by `dateModified` desc
      * @param page
      * @param pageSize
      * @param name

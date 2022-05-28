@@ -25,9 +25,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    ComboService comboService;
-
     @Override
     public boolean save(Category category) {
         Category save = categoryRepository.save(category);

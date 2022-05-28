@@ -175,7 +175,7 @@
         >
           <div>
             <el-form-item label="Name:" prop="name" >
-              <el-input v-model="ruleForm.name" placeholder="Please fill in the combo name" maxlength="20"/>
+              <el-input v-model="ruleForm.name" placeholder="Please fill in the combo name" maxlength="64"/>
             </el-form-item>
             <el-form-item label="Category:" prop="idType">
               <el-select v-model="ruleForm.idType" placeholder="Please select the category" @change="$forceUpdate()">
@@ -465,8 +465,8 @@
                 this.ruleForm.status = res.data.status === '1'
                 this.ruleForm.price = res.data.price / 100
                 this.imageUrl = `/common/download?name=${res.data.image}`
-                this.checkList = res.data.setmealDishes
-                this.dishTable = res.data.setmealDishes
+                this.checkList = res.data.comboDishes
+                this.dishTable = res.data.comboDishes
                 this.ruleForm.idType = res.data.categoryId
                 // this.ruleForm.password = ''
               } else {
@@ -530,7 +530,7 @@
               if (valid) {
                 let prams = { ...this.ruleForm }
                 prams.price *= 100
-                prams.setmealDishes = this.dishTable.map((obj) => ({
+                prams.comboDishes = this.dishTable.map((obj) => ({
                   copies: obj.copies,
                   dishId: obj.dishId,
                   name: obj.name,
@@ -538,7 +538,7 @@
                 }))
                 prams.status = this.ruleForm ? 1 : 0
                 prams.categoryId = this.ruleForm.idType
-                if(prams.setmealDishes.length < 1){
+                if(prams.comboDishes.length < 1){
                   this.$message.error('Please choose a dish!')
                   return 
                 }
