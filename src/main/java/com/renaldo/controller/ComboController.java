@@ -53,7 +53,10 @@ public class ComboController {
     }
 
     @PostMapping("/status/{statusCode}")
-    public R<String> updateStatus(@PathVariable Integer statusCode, Long[] ids) {
+    public R<String> updateStatus(HttpServletRequest request, @PathVariable Integer statusCode, Long[] ids) {
+        String empUsername = (String) request.getSession().getAttribute("employee");
+        BaseContextUtils.setCurrentUsername(empUsername);
+
         for (Long id : ids) {
             comboService.updateStatusById(statusCode, id);
         }

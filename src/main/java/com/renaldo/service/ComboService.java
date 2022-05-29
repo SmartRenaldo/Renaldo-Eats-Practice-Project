@@ -13,7 +13,9 @@ public interface ComboService {
 
     ComboDto getComboDtoById(Long id);
 
-    void updateStatusById(Integer statusCode, Long id);
+    void updateStatusById(Integer status, Long id);
 
     void update(ComboDto comboDto);
+
+    void updateCombo(Combo combo, Combo comboPer);
 }

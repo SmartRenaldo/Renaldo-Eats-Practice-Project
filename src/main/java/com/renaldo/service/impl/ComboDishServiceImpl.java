@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -35,5 +34,10 @@ public class ComboDishServiceImpl implements ComboDishService {
     @Override
     public List<ComboDish> getAllByComboId(Long comboId) {
         return comboDishRepository.getAllByComboId(comboId);
+    }
+
+    @Override
+    public void deleteAllByComboId(Long comboId) {
+        comboDishRepository.deleteAllByComboId(comboId);
     }
 }

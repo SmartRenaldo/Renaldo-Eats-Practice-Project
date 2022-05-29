@@ -21,4 +21,8 @@ public interface ComboDishRepository extends PagingAndSortingRepository<ComboDis
 
     @Query("SELECT cd FROM ComboDish cd WHERE cd.combo.id=:comboId")
     List<ComboDish> getAllByComboId(@Param("comboId") Long comboId);
+
+    @Query("DELETE FROM ComboDish cd WHERE cd.combo.id=:comboId ")
+    @Modifying
+    void deleteAllByComboId(@Param("comboId") Long comboId);
 }

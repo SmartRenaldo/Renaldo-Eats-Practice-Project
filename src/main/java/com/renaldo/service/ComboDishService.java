@@ -12,4 +12,6 @@ public interface ComboDishService {
     int getCountByDishId(Long id);
 
     List<ComboDish> getAllByComboId(Long comboId);
+
+    void deleteAllByComboId(Long comboId);
 }

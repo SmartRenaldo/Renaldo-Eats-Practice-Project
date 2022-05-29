@@ -16,8 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,38 +86,75 @@ public class ComboServiceImpl implements ComboService {
 
     @Override
     @Transactional
-    public void updateStatusById(Integer statusCode, Long id) {
-        comboRepository.updateStatusById(statusCode, id);
+    public void updateStatusById(Integer status, Long id) {
+        Combo combo = new Combo();
+        combo.setStatus(status);
+        combo.setId(id);
+        if (comboRepository.findById(combo.getId()).isPresent()) {
+            Combo comboPer = comboRepository.findById(combo.getId()).get();
+            updateCombo(combo, comboPer);
+        } else {
+            throw new CustomException("Combo with id " + combo.getId() + " not found!");
+        }
     }
 
     @Override
     @Transactional
     public void update(ComboDto comboDto) {
-        /*
         Combo combo = new Combo();
         BeanUtils.copyProperties(comboDto, combo);
         combo.setCategory(categoryService.findById(comboDto.getCategoryId()).get());
-        comboRepository.save(combo);
 
-        List<ComboDish> comboDishes = comboDto.getComboDishes().stream().peek(i ->
-                i.setCombo(combo)).collect(Collectors.toList());
-
-        comboDishService.saveAll(comboDishes);
-         */
-        Combo combo = new Combo();
-        BeanUtils.copyProperties(comboDto, combo);
-        combo.setCategory(categoryService.findById(comboDto.getCategoryId()).get());
         if (comboRepository.findById(combo.getId()).isPresent()) {
             Combo comboPer = comboRepository.findById(combo.getId()).get();
-            comboPer.setCategory(combo.getCategory());
-            comboPer.setCode(combo.getCode());
-            comboPer.setDescription(combo.getDescription());
-            comboPer.setImage(combo.getImage());
-            comboPer.setName(combo.getName());
-            comboPer.setPrice(combo.getPrice());
-            comboPer.setStatus(combo.getStatus());
+            updateCombo(combo, comboPer);
+
+            /*
+                dishOptionService.deleteAllByDish(dish);
+
+                List<DishOption> dishOptions = dishDto.getOptions().stream().peek((option) ->
+                        option.setDish(dish)).collect(Collectors.toList());
+                dishOptionService.saveAll(dishOptions);
+             */
+            comboDto.setComboDishes(comboDto.getComboDishes().stream().peek(i ->
+                    i.setCombo(comboPer)).collect(Collectors.toList()));
+
+            comboDishService.deleteAllByComboId(combo.getId());
+            comboDishService.saveAll(comboDto.getComboDishes());
         } else {
             throw new CustomException("Combo with id " + combo.getId() + " not found!");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateCombo(Combo combo, Combo comboPer) {
+        if (combo.getCategory() != null) {
+            comboPer.setCategory(combo.getCategory());
+        }
+
+        if (StringUtils.hasText(combo.getCode())) {
+            comboPer.setCode(combo.getCode());
+        }
+
+        if (StringUtils.hasText(combo.getDescription())) {
+            comboPer.setDescription(combo.getDescription());
+        }
+
+        if (StringUtils.hasText(combo.getImage())) {
+            comboPer.setImage(combo.getImage());
+        }
+
+        if (StringUtils.hasText(combo.getName())) {
+            comboPer.setName(combo.getName());
+        }
+
+        if (combo.getPrice() != null && combo.getPrice().compareTo(BigDecimal.ZERO) >= 0) {
+            comboPer.setPrice(combo.getPrice());
+        }
+
+        if (combo.getStatus() != null && combo.getStatus() >= 0) {
+            comboPer.setStatus(combo.getStatus());
         }
     }
 }
