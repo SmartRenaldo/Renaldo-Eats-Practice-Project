@@ -35,6 +35,8 @@ public class LoginFilter implements Filter {
                 "/back/**",
                 "/front/**",
                 "/common/**",
+                "/customers/sendEmail",
+                "/customers/login",
         };
 
         //Determine whether this request needs to be processed
