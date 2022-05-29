@@ -22,8 +22,6 @@ public class ComboController {
 
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody ComboDto comboDto) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
         comboService.save(comboDto);
 
         return R.success("Save successfully!");
@@ -54,9 +52,6 @@ public class ComboController {
 
     @PostMapping("/status/{statusCode}")
     public R<String> updateStatus(HttpServletRequest request, @PathVariable Integer statusCode, Long[] ids) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         for (Long id : ids) {
             comboService.updateStatusById(statusCode, id);
         }
@@ -66,8 +61,6 @@ public class ComboController {
 
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody ComboDto comboDto) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
         comboService.update(comboDto);
 
         return R.success("Save successfully!");

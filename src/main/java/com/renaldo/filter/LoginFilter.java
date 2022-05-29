@@ -1,6 +1,7 @@
 package com.renaldo.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -50,6 +51,18 @@ public class LoginFilter implements Filter {
 
         //Judging the login status, if logged in, let it go directly
         if (httpServletRequest.getSession().getAttribute("employee") != null) {
+            String empUsername = (String) httpServletRequest.getSession().getAttribute("employee");
+            BaseContextUtils.setCurrentUsername(empUsername);
+
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
+        //Judging the login status, if logged in, let it go directly
+        if (httpServletRequest.getSession().getAttribute("customer") != null) {
+            String empUsername = (String) httpServletRequest.getSession().getAttribute("customer");
+            BaseContextUtils.setCurrentUsername(empUsername);
+
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }

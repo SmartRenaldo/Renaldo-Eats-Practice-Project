@@ -59,9 +59,6 @@ public class EmployeeController {
      */
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         log.info("save employee. employee: {}", employee.toString());
         Employee save = employeeService.save(employee);
 
@@ -109,9 +106,6 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("Thread id: {}", Thread.currentThread().getId());
         log.info(employee.toString());
-
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
 
         Boolean flag = employeeService.updateEmployeeById(employee);
 

@@ -20,9 +20,6 @@ public class CategoryController {
 
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody Category category) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         boolean save = categoryService.save(category);
 
         if (save) {
@@ -49,9 +46,6 @@ public class CategoryController {
 
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody Category category) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         categoryService.updateById(category);
         return R.success("Update successfully!");
     }

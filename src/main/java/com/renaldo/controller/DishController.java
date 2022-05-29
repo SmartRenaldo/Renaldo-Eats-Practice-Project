@@ -25,9 +25,6 @@ public class DishController {
 
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody DishDto dishDto) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         dishService.save(dishDto);
 
         return R.success("Save successfully!");
@@ -58,9 +55,6 @@ public class DishController {
 
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody DishDto dishDto) {
-        String empUsername = (String) request.getSession().getAttribute("employee");
-        BaseContextUtils.setCurrentUsername(empUsername);
-
         dishService.update(dishDto);
 
         return R.success("Modify successfully!");
