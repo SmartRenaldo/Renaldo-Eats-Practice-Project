@@ -88,4 +88,35 @@ public class ComboServiceImpl implements ComboService {
     public void updateStatusById(Integer statusCode, Long id) {
         comboRepository.updateStatusById(statusCode, id);
     }
+
+    @Override
+    @Transactional
+    public void update(ComboDto comboDto) {
+        /*
+        Combo combo = new Combo();
+        BeanUtils.copyProperties(comboDto, combo);
+        combo.setCategory(categoryService.findById(comboDto.getCategoryId()).get());
+        comboRepository.save(combo);
+
+        List<ComboDish> comboDishes = comboDto.getComboDishes().stream().peek(i ->
+                i.setCombo(combo)).collect(Collectors.toList());
+
+        comboDishService.saveAll(comboDishes);
+         */
+        Combo combo = new Combo();
+        BeanUtils.copyProperties(comboDto, combo);
+        combo.setCategory(categoryService.findById(comboDto.getCategoryId()).get());
+        if (comboRepository.findById(combo.getId()).isPresent()) {
+            Combo comboPer = comboRepository.findById(combo.getId()).get();
+            comboPer.setCategory(combo.getCategory());
+            comboPer.setCode(combo.getCode());
+            comboPer.setDescription(combo.getDescription());
+            comboPer.setImage(combo.getImage());
+            comboPer.setName(combo.getName());
+            comboPer.setPrice(combo.getPrice());
+            comboPer.setStatus(combo.getStatus());
+        } else {
+            throw new CustomException("Combo with id " + combo.getId() + " not found!");
+        }
+    }
 }

@@ -39,12 +39,12 @@ public class DishOption implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
     protected Date dateCreated = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
     protected Date dateModified = new Date();
 
 }

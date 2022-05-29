@@ -61,4 +61,13 @@ public class ComboController {
         return R.success("Modify successfully!");
     }
 
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody ComboDto comboDto) {
+        String empUsername = (String) request.getSession().getAttribute("employee");
+        BaseContextUtils.setCurrentUsername(empUsername);
+        comboService.update(comboDto);
+
+        return R.success("Save successfully!");
+    }
+
 }
