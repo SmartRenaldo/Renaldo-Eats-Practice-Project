@@ -53,7 +53,8 @@
                     const regex = /^(\w+?)@(\w+?)\.com$/;
                     if (regex.test(this.form.email)) {
                         this.msgFlag = false
-                        this.form.code = (Math.random()*1000000).toFixed(0)
+                        // this.form.code = (Math.random()*1000000).toFixed(0)
+                        sendEmail({email:this.form.email})
                     }else{
                         this.msgFlag = true
                     }
