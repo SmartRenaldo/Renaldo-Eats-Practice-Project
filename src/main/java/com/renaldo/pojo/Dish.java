@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * use @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") before date attribute
+ * use @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30") before date attribute
  * can avoid the following problem:
  * Resolved [org.springframework.http.converter.HttpMessageNotReadableException:
  * JSON parse error: Cannot deserialize value of type `java.util.Date` from String
@@ -26,6 +26,9 @@ import java.util.List;
  * from String "2021-10-01 00:00:00": not a valid representation (error: Failed to parse Date value '2021-10-01 00:00:00': Cannot parse date "2021-10-01 00:00:00": while it seems to fit format 'yyyy-MM-dd'T'HH:mm:ss.SSSX',
  * parsing fails (leniency? null))<LF> at [Source: (PushbackInputStream); line: 3, column: 15]
  * (through reference chain: houseHistory.entity.House["publish"])]
+ *
+ * timezone: timezone need to be specified. If this attribute is not specified
+ * , time display on the front-end and database will be difference
  */
 @Entity
 @Table(name = "tb_dish",
