@@ -16,12 +16,11 @@
         <div id="login" v-loading="loading">
             <div class="divHead">LOG IN</div>
             <div class="divContainer">
-                <el-input placeholder=" Please enter your email" v-model="form.email"  maxlength='20'/></el-input>
+                <el-input placeholder=" Please enter your email" v-model="form.email"  maxlength='64'/></el-input>
                 <div class="divSplit"></div>
                 <el-input placeholder=" Please enter the code" v-model="form.code"  maxlength='20'/></el-input>
                 <span @click='getCode'>Send code</span>
             </div>
-            <div class="divMsg" v-if="msgFlag">Email format is incorrect. Please re-enter.</div>
             <el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.email,btnPhone:form.email}" @click="btnLogin">LOG IN</el-button>
         </div>
         <script src="../../back/plugins/vue/vue.js"></script>
@@ -50,10 +49,9 @@
             methods:{
                 getCode(){
                     this.form.code = ''
-                    const regex = /^(\w+?)@(\w+?)\.com$/;
+                    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                     if (regex.test(this.form.email)) {
                         this.msgFlag = false
-                        // this.form.code = (Math.random()*1000000).toFixed(0)
                         sendEmail({email:this.form.email})
                     }else{
                         this.msgFlag = true
@@ -73,7 +71,12 @@
                             this.$notify({ type:'warning', message:res.msg});
                         }
                     }else{
-                        this.$notify({ type:'warning', message:'Please enter your email'});
+                        if ( this.msgFlag || this.form.email == null || this.form.email == ''  ) {
+                            this.$notify({ type:'warning', message:'Please enter your email'});
+                        } else {
+                            this.$notify({ type:'warning', message:'Email format is incorrect. Please use the correct format.'});
+                        }
+
                     }
                 }
             }
