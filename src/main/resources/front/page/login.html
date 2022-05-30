@@ -40,7 +40,9 @@
                         code:''
                     },
                     msgFlag:false,
-                    loading:false
+                    loading:false,
+                    nodata:false,
+                    errFormat:false
                 }
             },
             computed:{},
@@ -58,9 +60,19 @@
                     }
                 },
                 async btnLogin(){
+                    this.nodata = false
+                    this.errFormat = false
+
+                    if (this.form.email == null || this.form.email == '') {
+                        this.nodata = true
+                    }else{
+                        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                        this.errFormat = !regex.test(this.form.email);
+                    }
+
                     if(this.form.email && this.form.code){
                         this.loading = true
-                        const res = await loginApi({email:this.form.email})
+                        const res = await loginApi(this.form)
                         this.loading = false
                         if(res.code === 1){
                             sessionStorage.setItem("userPhone",this.form.email)
@@ -71,10 +83,12 @@
                             this.$notify({ type:'warning', message:res.msg});
                         }
                     }else{
-                        if ( this.msgFlag || this.form.email == null || this.form.email == ''  ) {
+                        if ( this.nodata  ) {
                             this.$notify({ type:'warning', message:'Please enter your email'});
-                        } else {
-                            this.$notify({ type:'warning', message:'Email format is incorrect. Please use the correct format.'});
+                        } else if ( this.errFormat ) {
+                            this.$notify({ type:'warning', message:'Email format is incorrect!'});
+                        } else if ( this.form.code == null || this.form.code == '' ) {
+                            this.$notify({ type:'warning', message:'Please enter the code!'});
                         }
 
                     }

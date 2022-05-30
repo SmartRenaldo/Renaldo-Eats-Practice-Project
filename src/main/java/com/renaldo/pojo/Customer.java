@@ -12,7 +12,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_customer")
+@Table(name = "tb_customer",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 @Data
 public class Customer implements Serializable {
 
@@ -24,6 +25,7 @@ public class Customer implements Serializable {
 
     private String name;
 
+    @Column(columnDefinition = "varchar(64)")
     private String email;
 
     // 0 female 1 male
@@ -32,6 +34,7 @@ public class Customer implements Serializable {
     private String photo;
 
     // 0:disabled, 1:enabled
+    @Column(columnDefinition = "int(11) default '1'")
     private Integer status;
 
     @CreatedBy

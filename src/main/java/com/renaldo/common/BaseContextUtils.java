@@ -11,6 +11,10 @@ public class BaseContextUtils {
         THREAD_LOCAL.set(username);
     }
 
+    public static void setCurrentEmail(String email) {
+        THREAD_LOCAL.set(email);
+    }
+
     public static String getCurrentUsername() {
         return THREAD_LOCAL.get();
     }

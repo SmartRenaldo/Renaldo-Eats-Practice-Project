@@ -60,8 +60,8 @@ public class LoginFilter implements Filter {
 
         //Judging the login status, if logged in, let it go directly
         if (httpServletRequest.getSession().getAttribute("customer") != null) {
-            String empUsername = (String) httpServletRequest.getSession().getAttribute("customer");
-            BaseContextUtils.setCurrentUsername(empUsername);
+            String email = (String) httpServletRequest.getSession().getAttribute("customer");
+            BaseContextUtils.setCurrentEmail(email);
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
