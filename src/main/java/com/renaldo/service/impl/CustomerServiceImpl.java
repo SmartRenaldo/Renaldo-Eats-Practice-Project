@@ -1,5 +1,6 @@
 package com.renaldo.service.impl;
 
+import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.CustomException;
 import com.renaldo.pojo.Customer;
 import com.renaldo.repositories.CustomerRepository;
@@ -7,6 +8,7 @@ import com.renaldo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
@@ -62,7 +64,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void save(Customer customer) {
-        customerRepository.save(customer);
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Customer> getCurrentCustomer() {
+        return customerRepository.findById(BaseContextUtils.getCurrentId());
     }
 }

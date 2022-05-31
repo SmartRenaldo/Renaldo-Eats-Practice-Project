@@ -2,7 +2,10 @@ package com.renaldo.config;
 
 import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.JacksonObjectMapper;
+import com.renaldo.pojo.Employee;
+import com.renaldo.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,10 @@ import java.util.Optional;
 @EnableJpaAuditing
 @ServletComponentScan
 public class ApplicationConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private EmployeeService employeeService;
+
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("static resource mapping start...");
@@ -40,7 +47,9 @@ public class ApplicationConfig extends WebMvcConfigurationSupport {
             @Override
             public Optional getCurrentAuditor() {
                 log.info("Thread id: {}", Thread.currentThread().getId());
-                return Optional.of(BaseContextUtils.getCurrentUsername());
+                Employee employeeById = employeeService.getEmployeeById(BaseContextUtils.getCurrentId());
+
+                return Optional.of(employeeById.getUsername());
             }
         };
     }

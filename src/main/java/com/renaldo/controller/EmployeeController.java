@@ -1,13 +1,11 @@
 package com.renaldo.controller;
 
-import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.R;
 import com.renaldo.pojo.Employee;
 import com.renaldo.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +42,7 @@ public class EmployeeController {
             return R.error("This account cannot be used!");
         }
 
-        request.getSession().setAttribute("employee", employeeByUsernameAndPassword.getUsername());
+        request.getSession().setAttribute("employee", employeeByUsernameAndPassword.getId());
 
         log.info("Thread id: {}", Thread.currentThread().getId());
 

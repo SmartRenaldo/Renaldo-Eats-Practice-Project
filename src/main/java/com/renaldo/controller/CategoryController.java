@@ -1,6 +1,5 @@
 package com.renaldo.controller;
 
-import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.R;
 import com.renaldo.pojo.Category;
 import com.renaldo.service.CategoryService;

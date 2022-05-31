@@ -38,6 +38,7 @@ public class LoginFilter implements Filter {
                 "/common/**",
                 "/customers/sendEmail",
                 "/customers/login",
+                "/favicon.ico",
         };
 
         //Determine whether this request needs to be processed
@@ -51,8 +52,8 @@ public class LoginFilter implements Filter {
 
         //Judging the login status, if logged in, let it go directly
         if (httpServletRequest.getSession().getAttribute("employee") != null) {
-            String empUsername = (String) httpServletRequest.getSession().getAttribute("employee");
-            BaseContextUtils.setCurrentUsername(empUsername);
+            Long empId = (Long) httpServletRequest.getSession().getAttribute("employee");
+            BaseContextUtils.setCurrentId(empId);
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
@@ -60,8 +61,8 @@ public class LoginFilter implements Filter {
 
         //Judging the login status, if logged in, let it go directly
         if (httpServletRequest.getSession().getAttribute("customer") != null) {
-            String email = (String) httpServletRequest.getSession().getAttribute("customer");
-            BaseContextUtils.setCurrentEmail(email);
+            Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer");
+            BaseContextUtils.setCurrentId(customerId);
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;

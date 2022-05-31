@@ -1,21 +1,21 @@
 package com.renaldo.controller;
 
-import com.renaldo.common.CustomException;
 import com.renaldo.common.R;
 import com.renaldo.pojo.Customer;
 import com.renaldo.service.CustomerService;
 import com.renaldo.service.MailService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Slf4j
 @RestController
@@ -38,10 +38,11 @@ public class CustomerController {
     public R<String> sendEmail(HttpSession session, @RequestBody Customer customer) {
         if (customer.getEmail().matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")) {
             String code = mailService.sendVerificationCode4Digits(customer.getEmail());
+            log.info("code: {}", code);
             session.setAttribute(customer.getEmail(), code);
             return R.success("Send successfully!");
         } else {
-            throw new CustomException("Send failed!");
+            return R.error("Send failed!");
         }
     }
 
@@ -55,7 +56,7 @@ public class CustomerController {
      * @return
      */
     @PostMapping("/login")
-    public R<Customer> login(HttpSession session, @RequestBody Map<String, Object> map) {
+    public R<Customer> login(HttpServletRequest request, HttpSession session, @RequestBody Map<String, Object> map) {
         String email = map.get("email").toString();
         String code = map.get("code").toString();
         String sessionCode = (String) session.getAttribute(email);
@@ -67,10 +68,16 @@ public class CustomerController {
 
             if (!optional.isPresent()) {
                 customer.setStatus(1);
-                customerService.save(customer);
+                customer = customerService.save(customer);
+                BeanUtils.copyProperties(customerService.save(customer), customer);
+            } else {
+                customer = optional.get();
+                BeanUtils.copyProperties(optional.get(), customer);
             }
 
-            session.setAttribute("customer", customer.getEmail());
+            session.setAttribute("customer", customer.getId());
+            log.info("request.getSession().getAttribute(\"customer\"): {}", request.getSession().getAttribute("customer"));
+
             return R.success(customer);
         }
 
