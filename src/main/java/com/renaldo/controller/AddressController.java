@@ -23,6 +23,17 @@ public class AddressController {
         return R.success(addressService.save(address));
     }
 
+    @PutMapping
+    public R<String> update(@RequestBody Address address) {
+        Boolean update = addressService.update(address);
+
+        if (update) {
+            return R.success("Update successfully!");
+        }
+
+        return R.error("Update failed!");
+    }
+
     @PutMapping("/default")
     public R<Address> setDefault(@RequestBody Address address) {
         return R.success(addressService.setDefault(address));

@@ -15,4 +15,6 @@ public interface AddressService {
     Optional<Address> findDefault();
 
     List<Address> list(Address address);
+
+    Boolean update(Address address);
 }

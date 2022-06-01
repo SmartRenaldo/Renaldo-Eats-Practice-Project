@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -97,5 +98,26 @@ public class AddressServiceImpl implements AddressService {
         }
 
         return null;
+    }
+
+    @Override
+    @Transactional
+    public Boolean update(Address address) {
+        Optional<Address> byId = addressRepository.findById(address.getId());
+
+        if (!byId.isPresent()) {
+            return false;
+        }
+
+        Address addressById = byId.get();
+        addressById.setGender(address.getGender());
+        addressById.setDetail(address.getDetail());
+        addressById.setName(address.getName());
+        addressById.setPhone(address.getPhone());
+        addressById.setLabel(address.getLabel());
+        addressById.setDateModified(new Date());
+
+        return true;
+
     }
 }

@@ -13,7 +13,6 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_address")
 @Data
-@EntityListeners(AuditingEntityListener.class)
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
