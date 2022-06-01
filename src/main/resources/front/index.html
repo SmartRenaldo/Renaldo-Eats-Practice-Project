@@ -55,14 +55,13 @@
               <div>
                 <div class="divName">{{item.name}}</div>
                 <div class="divDesc">{{item.description}}</div>
-                <div class="divDesc">{{'月销' + (item.saleNum ? item.saleNum : 0)  }}</div>
                 <div class="divBottom"><span>$</span><span>{{item.price/100}}</span></div>
                 <div class="divNum">
                   <div class="divSubtract" v-if="item.number > 0">
                     <img src="images/subtract.png" @click.prevent.stop="subtractCart(item)"/>
                   </div>
                   <div class="divDishNum">{{item.number}}</div>
-                  <div class="divTypes" v-if="item.options  && item.options .length > 0 && !item.number " @click.prevent.stop="chooseOptionClick(item)">选择规格</div>
+                  <div class="divTypes" v-if="item.options  && item.options .length > 0 && !item.number " @click.prevent.stop="chooseOptionClick(item)">Select Option</div>
                   <div class="divAdd" v-else>
                     <img src="images/add.png" @click.prevent.stop="addCart(item)"/>
                   </div>
@@ -85,7 +84,7 @@
               <span>{{goodsPrice}}</span>
           </div>
           <div class="divPrice"></div>
-          <div :class="{btnSubmitActive: cartData && cartData.length > 0, btnSubmit:!cartData || cartData.length<1}" @click="toAddOrderPage">去结算</div>
+          <div :class="{btnSubmitActive: cartData && cartData.length > 0, btnSubmit:!cartData || cartData.length<1}" @click="toAddOrderPage">Go to checkout</div>
         </div>
         <van-dialog v-model="dialogOption.show" :show-confirm-button="false" class="dialogOption" ref="optionDialog">
           <div class="dialogTitle">{{dialogOption.name}}</div>
@@ -101,7 +100,7 @@
           </div>
           <div class="divBottom">
             <div><span class="spanMoney">$</span>{{dialogOption.price/100}}</div>
-            <div @click="dialogOptionAddCart">加入购物车</div>
+            <div @click="dialogOptionAddCart">Add to cart</div>
           </div>
           <div class="divOptionClose" @click="dialogOption.show = false">
             <img src="images/close.png"/>
@@ -163,7 +162,7 @@
                   <img src="images/subtract.png" @click="subtractCart(detailsDialog.item)"/>
                 </div>
                 <div class="divDishNum">{{detailsDialog.item.number}}</div>
-                <div class="divTypes" v-if="detailsDialog.item.options  && detailsDialog.item.options .length > 0 && !detailsDialog.item.number " @click ="chooseOptionClick(detailsDialog.item)">选择规格</div>
+                <div class="divTypes" v-if="detailsDialog.item.options  && detailsDialog.item.options .length > 0 && !detailsDialog.item.number " @click ="chooseOptionClick(detailsDialog.item)">Select Option</div>
                 <div class="divAdd" v-else>
                   <img src="images/add.png" @click="addCart(detailsDialog.item)"/>
                 </div>
@@ -509,7 +508,7 @@
                   this.$notify({ type:'warning', message:res.msg});
                 }
             },
-            //点击选择规格
+            //choose Select Option
             chooseOptionClick(item){
               this.dialogOption = {
                 name:'',
@@ -533,7 +532,7 @@
               this.dialogOption.show = false
               this.dialogOption.show = true
             },
-            //选择规格加入购物车
+            //Select Option and Add to cart
             dialogOptionAddCart(){
               const dialogOption = this.dialogOption
               let flag = true

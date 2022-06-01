@@ -5,6 +5,7 @@ import com.renaldo.pojo.Dish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -15,7 +16,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface DishRepository extends PagingAndSortingRepository<Dish, Long>
-        , QuerydslPredicateExecutor<Dish> {
+        , QuerydslPredicateExecutor<Dish>
+        , JpaSpecificationExecutor<Dish> {
 
     @Query("SELECT d FROM Dish d ORDER BY d.category.sort, d.dateModified desc ")
     Page<Dish> findAll(Pageable pageable);

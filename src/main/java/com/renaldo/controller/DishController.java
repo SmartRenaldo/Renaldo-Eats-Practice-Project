@@ -3,8 +3,10 @@ package com.renaldo.controller;
 import com.renaldo.common.R;
 import com.renaldo.dto.DishDto;
 import com.renaldo.pojo.Dish;
+import com.renaldo.service.DishOptionService;
 import com.renaldo.service.DishService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -20,6 +23,9 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private DishOptionService dishOptionService;
 
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody DishDto dishDto) {
@@ -77,21 +83,38 @@ public class DishController {
     }
 
     /**
-     * getting dish by category, sorting by category id asc (priority) and date modified desc
+     * getting dish by category, sorting by category id asc (priority) and date modified desc.
+     * if status is not null, query according to status
      * @return
      */
     @GetMapping("/list")
-    public R<List<Dish>> list(DishDto dishDto) {
+    public R<List<DishDto>> list(DishDto dishDto) {
         if (dishDto.getCategoryId() != null && dishDto.getCategoryId() > -1) {
             List<Dish> dishByCategory = dishService.getDishByCategory(dishDto);
 
-            return R.success(dishByCategory);
+            return getDistDtoList(dishByCategory);
         } else if (StringUtils.hasText(dishDto.getName())){
             List<Dish> dishByName = dishService.getDishByName(dishDto);
 
-            return R.success(dishByName);
+            return getDistDtoList(dishByName);
         }
 
         return null;
+    }
+
+    private R<List<DishDto>> getDistDtoList(List<Dish> dishes) {
+        List<DishDto> dishDtos = dishes.stream().map(i -> {
+            DishDto dao = new DishDto();
+            BeanUtils.copyProperties(i, dao);
+            dao.setOptions(dishOptionService.findByDish(i));
+
+            if (i.getCategory() != null) {
+                dao.setCategoryId(i.getCategory().getId());
+            }
+
+            return dao;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtos);
     }
 }

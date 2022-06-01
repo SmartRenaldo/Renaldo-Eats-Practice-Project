@@ -2,14 +2,18 @@ package com.renaldo.controller;
 
 import com.renaldo.common.R;
 import com.renaldo.dto.ComboDto;
+import com.renaldo.dto.DishDto;
 import com.renaldo.pojo.Combo;
+import com.renaldo.pojo.Dish;
 import com.renaldo.service.ComboService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -63,6 +67,26 @@ public class ComboController {
         comboService.update(comboDto);
 
         return R.success("Save successfully!");
+    }
+
+
+    /**
+     * getting dish by category, sorting by category id asc (priority) and date modified desc
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Combo>> list(ComboDto comboDto) {
+        if (comboDto.getCategoryId() != null && comboDto.getCategoryId() > -1) {
+            List<Combo> comboByCategory = comboService.getComboByCategory(comboDto);
+
+            return R.success(comboByCategory);
+        } else if (StringUtils.hasText(comboDto.getName())){
+            List<Combo> comboByName = comboService.getComboByName(comboDto);
+
+            return R.success(comboByName);
+        }
+
+        return null;
     }
 
 }

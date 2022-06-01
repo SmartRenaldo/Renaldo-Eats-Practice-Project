@@ -3,14 +3,19 @@ package com.renaldo.repositories;
 import com.renaldo.pojo.Combo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ComboRepository extends PagingAndSortingRepository<Combo, Long>
-        , QuerydslPredicateExecutor<Combo> {
+        , QuerydslPredicateExecutor<Combo>
+        , JpaSpecificationExecutor<Combo> {
 
     @Query("SELECT c FROM Combo c ORDER BY c.category.sort, c.dateModified desc ")
     Page<Combo> findAll(Pageable pageable);
@@ -30,4 +35,9 @@ public interface ComboRepository extends PagingAndSortingRepository<Combo, Long>
     @Query("UPDATE Combo c set c.status=:status where c.id=:id")
     @Modifying
     void updateStatusById(@Param("status") Integer status, @Param("id") Long id);
+
+    @Query("SELECT c FROM Combo c where c.category.id=:categoryId")
+    List<Combo> getComboByCategoryId(@Param("categoryId") Long categoryId, Sort and);
+
+    List<Combo> getComboByNameContains(String name, Sort and);
 }

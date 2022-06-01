@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -157,7 +160,22 @@ public class DishServiceImpl implements DishService {
         Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
         Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
 
-        return dishRepository.getDishByCategoryId(dishDto.getCategoryId(), and);
+        return dishRepository.findAll((Specification<Dish>) (root, query, criteriaBuilder) -> {
+            Path<Category> category = root.get("category");
+            Path<Integer> status = root.get("status");
+
+            ArrayList<Predicate> predicates = new ArrayList<>();
+
+            if (dishDto.getCategoryId() != null && dishDto.getCategoryId() > -1) {
+                predicates.add(criteriaBuilder.equal(category, categoryService.findById(dishDto.getCategoryId()).get()));
+            }
+
+            if (dishDto.getStatus() != null && dishDto.getStatus() == 1) {
+                predicates.add(criteriaBuilder.equal(status, dishDto.getStatus()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        }, and);
     }
 
     @Override
@@ -165,6 +183,6 @@ public class DishServiceImpl implements DishService {
         Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
         Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
 
-        return dishRepository.getDishByNameContains(dishDto.getName(), sort);
+        return dishRepository.getDishByNameContains(dishDto.getName(), and);
     }
 }

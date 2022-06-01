@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -156,5 +157,38 @@ public class ComboServiceImpl implements ComboService {
         if (combo.getStatus() != null && combo.getStatus() >= 0) {
             comboPer.setStatus(combo.getStatus());
         }
+    }
+/*
+@Override
+    @Transactional
+    public List<Dish> getDishByCategory(DishDto dishDto) {
+        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
+        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
+
+        return dishRepository.getDishByCategoryId(dishDto.getCategoryId(), and);
+    }
+
+    @Override
+    public List<Dish> getDishByName(DishDto dishDto) {
+        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
+        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
+
+        return dishRepository.getDishByNameContains(dishDto.getName(), and);
+    }
+ */
+    @Override
+    public List<Combo> getComboByCategory(ComboDto comboDto) {
+        Sort.TypedSort<Combo> sort = Sort.sort(Combo.class);
+        Sort and = sort.by(Combo::getCategory).ascending().and(sort.by(Combo::getDateModified).descending());
+
+        return comboRepository.getComboByCategoryId(comboDto.getCategoryId(), and);
+    }
+
+    @Override
+    public List<Combo> getComboByName(ComboDto comboDto) {
+        Sort.TypedSort<Combo> sort = Sort.sort(Combo.class);
+        Sort and = sort.by(Combo::getCategory).ascending().and(sort.by(Combo::getDateModified).descending());
+
+        return comboRepository.getComboByNameContains(comboDto.getName(), and);
     }
 }
