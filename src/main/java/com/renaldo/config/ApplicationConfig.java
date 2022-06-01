@@ -47,9 +47,8 @@ public class ApplicationConfig extends WebMvcConfigurationSupport {
             @Override
             public Optional getCurrentAuditor() {
                 log.info("Thread id: {}", Thread.currentThread().getId());
-                Employee employeeById = employeeService.getEmployeeById(BaseContextUtils.getCurrentId());
 
-                return Optional.of(employeeById.getUsername());
+                return Optional.of(BaseContextUtils.getCurrentUsername());
             }
         };
     }

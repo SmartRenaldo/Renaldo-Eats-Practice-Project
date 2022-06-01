@@ -17,6 +17,7 @@ public interface ComboRepository extends PagingAndSortingRepository<Combo, Long>
         , QuerydslPredicateExecutor<Combo>
         , JpaSpecificationExecutor<Combo> {
 
+    @Override
     @Query("SELECT c FROM Combo c ORDER BY c.category.sort, c.dateModified desc ")
     Page<Combo> findAll(Pageable pageable);
 

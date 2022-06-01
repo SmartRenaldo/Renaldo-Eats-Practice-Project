@@ -6,6 +6,7 @@ package com.renaldo.common;
  */
 public class BaseContextUtils {
     private static final ThreadLocal<Long> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL_EMPLOYEE = new ThreadLocal<>();
 
     public static void setCurrentId(Long id) {
         THREAD_LOCAL.set(id);
@@ -13,5 +14,13 @@ public class BaseContextUtils {
 
     public static Long getCurrentId() {
         return THREAD_LOCAL.get();
+    }
+
+    public static void setCurrentUsername(String username) {
+        THREAD_LOCAL_EMPLOYEE.set(username);
+    }
+
+    public static String getCurrentUsername() {
+        return THREAD_LOCAL_EMPLOYEE.get();
     }
 }

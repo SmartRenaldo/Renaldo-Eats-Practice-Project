@@ -17,4 +17,6 @@ public interface EmployeeService {
     Page<Employee> findAllByNameContains(int page, int pageSize, String nameContains);
 
     Boolean updateEmployeeById(Employee employee);
+
+    String getEmployeeUserNameById(Long currentId);
 }

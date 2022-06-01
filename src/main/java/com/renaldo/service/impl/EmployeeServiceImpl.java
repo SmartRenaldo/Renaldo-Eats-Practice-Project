@@ -96,4 +96,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return flag;
     }
+
+    @Override
+    public String getEmployeeUserNameById(Long currentId) {
+        return employeeRepository.getUsernameById(currentId);
+    }
 }

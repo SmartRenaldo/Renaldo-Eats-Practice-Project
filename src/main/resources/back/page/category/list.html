@@ -108,7 +108,7 @@
           <el-input
             v-model="classData.name"
             placeholder="Please enter the category"
-            maxlength="14"
+            maxlength="64"
           />
         </el-form-item>
         <el-form-item label="Sort ">
@@ -201,7 +201,7 @@
             this.classData.dialogVisible = true
           },
           editHandle(dat) {
-            this.classData.title = 'Modify category'
+            this.classData.title = 'Modify Category'
             this.action = 'edit'
             this.classData.name = dat.name
             this.classData.sort = dat.sort

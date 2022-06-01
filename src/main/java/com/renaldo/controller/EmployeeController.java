@@ -42,7 +42,8 @@ public class EmployeeController {
             return R.error("This account cannot be used!");
         }
 
-        request.getSession().setAttribute("employee", employeeByUsernameAndPassword.getId());
+        request.getSession().setAttribute("employeeId", employeeByUsernameAndPassword.getId());
+        request.getSession().setAttribute("employeeUsername", employeeByUsernameAndPassword.getUsername());
 
         log.info("Thread id: {}", Thread.currentThread().getId());
 
@@ -76,7 +77,8 @@ public class EmployeeController {
      */
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("employee");
+        request.getSession().removeAttribute("employeeId");
+        request.getSession().removeAttribute("employeeUsername");
         return R.success("Logout successfully!");
     }
 

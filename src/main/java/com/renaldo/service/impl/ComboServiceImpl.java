@@ -2,6 +2,7 @@ package com.renaldo.service.impl;
 
 import com.renaldo.common.CustomException;
 import com.renaldo.dto.ComboDto;
+import com.renaldo.pojo.Category;
 import com.renaldo.pojo.Combo;
 import com.renaldo.pojo.ComboDish;
 import com.renaldo.repositories.ComboRepository;
@@ -15,11 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -158,30 +163,28 @@ public class ComboServiceImpl implements ComboService {
             comboPer.setStatus(combo.getStatus());
         }
     }
-/*
-@Override
-    @Transactional
-    public List<Dish> getDishByCategory(DishDto dishDto) {
-        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
-        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
 
-        return dishRepository.getDishByCategoryId(dishDto.getCategoryId(), and);
-    }
-
-    @Override
-    public List<Dish> getDishByName(DishDto dishDto) {
-        Sort.TypedSort<Dish> sort = Sort.sort(Dish.class);
-        Sort and = sort.by(Dish::getCategory).ascending().and(sort.by(Dish::getDateModified).descending());
-
-        return dishRepository.getDishByNameContains(dishDto.getName(), and);
-    }
- */
     @Override
     public List<Combo> getComboByCategory(ComboDto comboDto) {
         Sort.TypedSort<Combo> sort = Sort.sort(Combo.class);
         Sort and = sort.by(Combo::getCategory).ascending().and(sort.by(Combo::getDateModified).descending());
 
-        return comboRepository.getComboByCategoryId(comboDto.getCategoryId(), and);
+        return comboRepository.findAll((Specification<Combo>) (root, query, criteriaBuilder) -> {
+            Path<Category> category = root.get("category");
+            Path<Integer> status = root.get("status");
+
+            ArrayList<Predicate> predicates = new ArrayList<>();
+
+            if (comboDto.getCategoryId() != null && comboDto.getCategoryId() > -1) {
+                predicates.add(criteriaBuilder.equal(category, categoryService.findById(comboDto.getCategoryId()).get()));
+            }
+
+            if (comboDto.getStatus() != null && comboDto.getStatus() == 1) {
+                predicates.add(criteriaBuilder.equal(status, comboDto.getStatus()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        }, and);
     }
 
     @Override

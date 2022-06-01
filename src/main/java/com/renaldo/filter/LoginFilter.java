@@ -51,9 +51,11 @@ public class LoginFilter implements Filter {
         }
 
         //Judging the login status, if logged in, let it go directly
-        if (httpServletRequest.getSession().getAttribute("employee") != null) {
-            Long empId = (Long) httpServletRequest.getSession().getAttribute("employee");
+        if (httpServletRequest.getSession().getAttribute("employeeId") != null) {
+            Long empId = (Long) httpServletRequest.getSession().getAttribute("employeeId");
+            String empUsername = (String) httpServletRequest.getSession().getAttribute("employeeUsername");
             BaseContextUtils.setCurrentId(empId);
+            BaseContextUtils.setCurrentUsername(empUsername);
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
