@@ -25,4 +25,6 @@ public interface DishService {
     List<Dish> getDishByCategory(DishDto dishDto);
 
     List<Dish> getDishByName(DishDto dishDto);
+
+    Dish findById(Long dishId);
 }

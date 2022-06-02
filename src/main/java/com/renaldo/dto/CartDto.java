@@ -1,6 +1,7 @@
 package com.renaldo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.renaldo.pojo.Cart;
 import com.renaldo.pojo.Combo;
 import com.renaldo.pojo.Customer;
 import com.renaldo.pojo.Dish;
@@ -14,52 +15,15 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
-@Table(name = "tb_cart")
+/**
+ * @author Yiqi Li
+ */
 @Data
-public class CartDto implements Serializable {
+public class CartDto extends Cart {
 
-    private static final long serialVersionUID = 1L;
+    private Long dishId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Customer customer;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Dish dish;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Combo combo;
-
-    private String dishOption;
-
-    //number
-    private Integer number;
-
-    private BigDecimal amount;
-
-    private String image;
-
-    private LocalDateTime createTime;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
-    protected Date dateCreated = new Date();
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
-    protected Date dateModified = new Date();
-
-    private Integer dishId;
-
-    private Integer comboId;
+    private Long comboId;
     
-    private Integer customerId;
+    private Long customerId;
 }

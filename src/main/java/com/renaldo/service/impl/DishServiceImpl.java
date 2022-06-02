@@ -185,4 +185,9 @@ public class DishServiceImpl implements DishService {
 
         return dishRepository.getDishByNameContains(dishDto.getName(), and);
     }
+
+    @Override
+    public Dish findById(Long dishId) {
+        return dishRepository.findById(dishId).get();
+    }
 }

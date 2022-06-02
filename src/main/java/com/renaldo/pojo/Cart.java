@@ -24,25 +24,24 @@ public class Cart implements Serializable {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private Dish dish;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private Combo combo;
 
     private String dishOption;
 
-    //number
+    //number of items
     private Integer number;
 
+    //how much money will cost for one item
     private BigDecimal amount;
 
     private String image;
-
-    private LocalDateTime createTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

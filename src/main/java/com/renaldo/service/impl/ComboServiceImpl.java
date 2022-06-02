@@ -194,4 +194,9 @@ public class ComboServiceImpl implements ComboService {
 
         return comboRepository.getComboByNameContains(comboDto.getName(), and);
     }
+
+    @Override
+    public Combo findById(Long comboId) {
+        return comboRepository.findById(comboId).get();
+    }
 }

@@ -24,4 +24,6 @@ public interface ComboService {
     List<Combo> getComboByCategory(ComboDto comboDto);
 
     List<Combo> getComboByName(ComboDto comboDto);
+
+    Combo findById(Long comboId);
 }
