@@ -79,19 +79,7 @@ public class CartServiceImpl implements CartService {
                 BeanUtils.copyProperties(save, dto);
             }
 
-            if (dto.getCombo() != null) {
-                dto.setComboId(dto.getCombo().getId());
-            }
-
-            if (dto.getCustomer() != null) {
-                dto.setCustomerId(dto.getCustomer().getId());
-            }
-
-            if (dto.getDish() != null) {
-                dto.setDishId(dto.getDish().getId());
-            }
-
-            return dto;
+            return getCartDto(dto);
         }
 
         return null;
@@ -134,24 +122,33 @@ public class CartServiceImpl implements CartService {
                     cartRepository.deleteById(cartPre.getId());
                 }
 
-                if (dto.getCombo() != null) {
-                    dto.setComboId(dto.getCombo().getId());
-                }
-
-                if (dto.getCustomer() != null) {
-                    dto.setCustomerId(dto.getCustomer().getId());
-                }
-
-                if (dto.getDish() != null) {
-                    dto.setDishId(dto.getDish().getId());
-                }
-
-                return dto;
+                return getCartDto(dto);
             }
 
         }
 
         return null;
+    }
+
+    /**
+     * set unique attributes for CartDao (Cart does not have)
+     * @param dto
+     * @return
+     */
+    private CartDto getCartDto(CartDto dto) {
+        if (dto.getCombo() != null) {
+            dto.setComboId(dto.getCombo().getId());
+        }
+
+        if (dto.getCustomer() != null) {
+            dto.setCustomerId(dto.getCustomer().getId());
+        }
+
+        if (dto.getDish() != null) {
+            dto.setDishId(dto.getDish().getId());
+        }
+
+        return dto;
     }
 
     @Override
@@ -174,19 +171,7 @@ public class CartServiceImpl implements CartService {
                 CartDto cartDto = new CartDto();
                 BeanUtils.copyProperties(i, cartDto);
 
-                if (cartDto.getCombo() != null) {
-                    cartDto.setComboId(cartDto.getCombo().getId());
-                }
-
-                if (cartDto.getCustomer() != null) {
-                    cartDto.setCustomerId(cartDto.getCustomer().getId());
-                }
-
-                if (cartDto.getDish() != null) {
-                    cartDto.setDishId(cartDto.getDish().getId());
-                }
-
-                return cartDto;
+                return getCartDto(cartDto);
             }).collect(Collectors.toList());
 
         }
@@ -198,5 +183,11 @@ public class CartServiceImpl implements CartService {
     public void clean() {
         Optional<Customer> currentCustomer = customerService.getCurrentCustomer();
         cartRepository.deleteAllByCustomer(currentCustomer);
+    }
+
+    @Override
+    public List<Cart> findAllByCustomer(Optional<Customer> currentCustomer) {
+        return currentCustomer.map(customer -> cartRepository.findAllByCustomer(customer)).orElse(null);
+
     }
 }

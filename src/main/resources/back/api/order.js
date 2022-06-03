@@ -1,7 +1,7 @@
 // 查询列表页接口
 const getOrderDetailPage = (params) => {
   return $axios({
-    url: '/order/page',
+    url: '/orders/page',
     method: 'get',
     params
   })
@@ -18,7 +18,7 @@ const queryOrderDetailById = (id) => {
 // 取消，派送，完成接口
 const editOrderDetail = (params) => {
   return $axios({
-    url: '/order',
+    url: '/orders',
     method: 'put',
     data: { ...params }
   })

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CartRepository extends PagingAndSortingRepository<Cart, Long>
@@ -17,4 +18,6 @@ public interface CartRepository extends PagingAndSortingRepository<Cart, Long>
     Optional<Cart> findByCustomerAndDish(Customer customer, Dish dish);
 
     void deleteAllByCustomer(Optional<Customer> currentCustomer);
+
+    List<Cart> findAllByCustomer(Customer customer);
 }

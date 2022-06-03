@@ -71,7 +71,13 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Optional<Address> findDefault() {
-        return addressRepository.findDefault();
+        Optional<Customer> currentCustomer = customerService.getCurrentCustomer();
+
+        if (currentCustomer.isPresent()) {
+            return addressRepository.findDefault(currentCustomer.get());
+        }
+
+        return Optional.empty();
     }
 
     @Override
