@@ -28,6 +28,8 @@ public class CustomerController {
     @Autowired
     private MailService mailService;
 
+    private static String email;
+
     /**
      * send verification code (4 digits) by email
      * if send successfully, store code into session
@@ -40,6 +42,7 @@ public class CustomerController {
             String code = mailService.sendVerificationCode4Digits(customer.getEmail());
             log.info("code: {}", code);
             session.setAttribute(customer.getEmail(), code);
+            email = customer.getEmail();
             return R.success("Send successfully!");
         } else {
             return R.error("Send failed!");
@@ -82,5 +85,19 @@ public class CustomerController {
         }
 
         return R.error("Send failed!");
+    }
+
+    /**
+     * logout function will remove session for customer and return code 1
+     * @param session
+     * @return
+     */
+    @PostMapping("/logout")
+    public R<String> logout(HttpSession session) {
+        session.removeAttribute("customer");
+        session.removeAttribute(email);
+        log.info("session: {}", session);
+
+        return R.success("Logout successfully!");
     }
 }

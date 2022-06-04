@@ -25,9 +25,6 @@ import java.util.Optional;
 @ServletComponentScan
 public class ApplicationConfig extends WebMvcConfigurationSupport {
 
-    @Autowired
-    private EmployeeService employeeService;
-
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("static resource mapping start...");

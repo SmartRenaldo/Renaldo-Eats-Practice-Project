@@ -16,7 +16,7 @@ function sendEmail(data) {
 
 function loginoutApi() {
     return $axios({
-        'url': '/customers/loginout',
+        'url': '/customers/logout',
         'method': 'post',
     })
 }
