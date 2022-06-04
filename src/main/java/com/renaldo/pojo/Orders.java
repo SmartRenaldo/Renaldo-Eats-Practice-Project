@@ -1,7 +1,9 @@
 package com.renaldo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -17,6 +19,8 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_order")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,8 +31,8 @@ public class Orders implements Serializable {
 
     /**
      * 1. pending payment,
-     * 2. pending delivery,
-     * 3. delivered,
+     * 2. preparing,
+     * 3. delivering,
      * 4. completed,
      * 5. cancelled
      */

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrderDetailService {
     void savaAll(List<OrderDetail> orderDetails);
+
+    List<OrderDetail> findAllByOrderId(Long orderId);
 }

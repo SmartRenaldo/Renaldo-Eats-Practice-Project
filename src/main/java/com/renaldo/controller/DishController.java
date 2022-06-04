@@ -58,7 +58,7 @@ public class DishController {
     }
 
     @PutMapping
-    public R<String> update(HttpServletRequest request, @RequestBody DishDto dishDto) {
+    public R<String> update(@RequestBody DishDto dishDto) {
         dishService.update(dishDto);
 
         return R.success("Modify successfully!");

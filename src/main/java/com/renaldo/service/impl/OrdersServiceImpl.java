@@ -1,20 +1,26 @@
 package com.renaldo.service.impl;
 
+import com.renaldo.common.BaseContextUtils;
 import com.renaldo.common.CustomException;
 import com.renaldo.common.R;
+import com.renaldo.dto.OrderDto;
 import com.renaldo.pojo.*;
 import com.renaldo.repositories.OrdersRepository;
 import com.renaldo.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class OrdersServiceImpl implements OrdersService {
 
@@ -107,5 +113,48 @@ public class OrdersServiceImpl implements OrdersService {
         cartService.clean();
 
         return null;
+    }
+
+    /**
+     * only search this customer's order, sorting by orderTime desc
+     *
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @Override
+    @Transactional
+    public Page<OrderDto> findAllByNameContains(int page, int pageSize, String name) {
+        Sort.TypedSort<Orders> sort = Sort.sort(Orders.class);
+        Sort descending = sort.by(Orders::getOrderTime).descending();
+        Long currentId = BaseContextUtils.getCurrentId();
+
+        Page<OrderDto> orderDtos;
+
+        if (name == null) {
+            orderDtos = ordersRepository.findAllByCustomerId(PageRequest.of(page - 1, pageSize, descending)
+                    , currentId).map(o -> {
+                OrderDto orderDto = new OrderDto(o);
+                orderDto.setOrderDetails(orderDetailService.findAllByOrderId(o.getId()));
+
+                return orderDto;
+            });
+            orderDtos.getContent().stream().peek(i ->
+                    i.setOrderDetails(orderDetailService.findAllByOrderId(i.getId())));
+        } else {
+            orderDtos = ordersRepository.findAllByCustomerIdAndNameContains(
+                    PageRequest.of(page - 1, pageSize, descending), currentId, name)
+                    .map(o -> {
+                        OrderDto orderDto = new OrderDto(o);
+                        orderDto.setOrderDetails(orderDetailService.findAllByOrderId(o.getId()));
+
+                        return orderDto;
+                    });
+        }
+        
+        log.info("orderDtos: {}", orderDtos);
+
+        return orderDtos;
     }
 }
