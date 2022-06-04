@@ -152,7 +152,7 @@ public class OrdersServiceImpl implements OrdersService {
                         return orderDto;
                     });
         }
-        
+
         log.info("orderDtos: {}", orderDtos);
 
         return orderDtos;
