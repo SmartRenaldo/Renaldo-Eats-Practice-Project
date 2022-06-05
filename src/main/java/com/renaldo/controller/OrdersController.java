@@ -31,4 +31,11 @@ public class OrdersController {
 
         return R.success(ordersService.findAllByOrderDto(orderDto));
     }
+
+    @PutMapping
+    public R<String> update(@RequestBody OrderDto orderDto) {
+        ordersService.update(orderDto);
+
+        return R.success("Update successfully!");
+    }
 }

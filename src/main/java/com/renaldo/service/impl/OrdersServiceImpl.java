@@ -184,4 +184,20 @@ public class OrdersServiceImpl implements OrdersService {
 
         return orderDtos;
     }
+
+    @Override
+    @Transactional
+    public void update(OrderDto orderDto) {
+        Optional<Orders> byId = ordersRepository.findById(orderDto.getId());
+
+        if (byId.isPresent()) {
+            if (orderDto.getStatus() != null) {
+                byId.get().setStatus(orderDto.getStatus());
+            }
+
+            return;
+        }
+
+        throw new CustomException("No such order!");
+    }
 }

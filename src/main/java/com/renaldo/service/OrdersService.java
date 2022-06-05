@@ -9,4 +9,6 @@ public interface OrdersService {
     R<String> submit(Orders orders);
 
     Page<OrderDto> findAllByOrderDto(OrderDto orderDto);
+
+    void update(OrderDto orderDto);
 }
