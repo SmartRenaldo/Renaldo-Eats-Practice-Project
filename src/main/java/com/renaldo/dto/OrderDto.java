@@ -1,5 +1,6 @@
 package com.renaldo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.renaldo.pojo.OrderDetail;
 import com.renaldo.pojo.Orders;
 import lombok.Data;
@@ -14,6 +15,16 @@ import java.util.List;
 public class OrderDto extends Orders {
 
     private List<OrderDetail> orderDetails;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
+    private String beginTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9:30")
+    private String endTime;
+
+    private int pageSize;
+
+    private int page;
 
     public OrderDto(Orders o) {
         this.setAddress(o.getAddress());

@@ -12,10 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.*;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,42 +124,62 @@ public class OrdersServiceImpl implements OrdersService {
     /**
      * only search this customer's order, sorting by orderTime desc
      *
-     * @param page
-     * @param pageSize
-     * @param name
+     * @param orderDto
      * @return
      */
     @Override
     @Transactional
-    public Page<OrderDto> findAllByNameContains(int page, int pageSize, String name) {
+    public Page<OrderDto> findAllByOrderDto(OrderDto orderDto) {
         Sort.TypedSort<Orders> sort = Sort.sort(Orders.class);
         Sort descending = sort.by(Orders::getOrderTime).descending();
         Long currentId = BaseContextUtils.getCurrentId();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Integer page = orderDto.getPage();
+        Integer pageSize = orderDto.getPageSize();
 
         Page<OrderDto> orderDtos;
 
-        if (name == null) {
-            orderDtos = ordersRepository.findAllByCustomerId(PageRequest.of(page - 1, pageSize, descending)
-                    , currentId).map(o -> {
-                OrderDto orderDto = new OrderDto(o);
-                orderDto.setOrderDetails(orderDetailService.findAllByOrderId(o.getId()));
+        orderDtos = ordersRepository
+                .findAll((Specification<Orders>) (root, query, criteriaBuilder) -> {
+                    ArrayList<Predicate> predicates = new ArrayList<>();
+                    Path<Long> id = root.get("id");
+                    Path<String> name = root.get("name");
+                    Path<Date> orderTime = root.get("orderTime");
 
-                return orderDto;
-            });
-            orderDtos.getContent().stream().peek(i ->
-                    i.setOrderDetails(orderDetailService.findAllByOrderId(i.getId())));
-        } else {
-            orderDtos = ordersRepository.findAllByCustomerIdAndNameContains(
-                    PageRequest.of(page - 1, pageSize, descending), currentId, name)
-                    .map(o -> {
-                        OrderDto orderDto = new OrderDto(o);
-                        orderDto.setOrderDetails(orderDetailService.findAllByOrderId(o.getId()));
+                    if (orderDto.getName() != null) {
+                        predicates.add(criteriaBuilder.like(name, "%" + orderDto.getName() + "%"));
+                    }
 
-                        return orderDto;
-                    });
-        }
+                    if (currentId != null) {
+                        predicates.add(criteriaBuilder.equal(id, currentId));
+                    } else if (orderDto.getId() != null) {
+                        predicates.add(criteriaBuilder.equal(id, orderDto.getId()));
+                    }
 
-        log.info("orderDtos: {}", orderDtos);
+                    if (orderDto.getBeginTime() != null) {
+                        try {
+                            predicates.add(criteriaBuilder.greaterThanOrEqualTo(orderTime, simpleDateFormat.parse(orderDto.getBeginTime())));
+                        } catch (ParseException e) {
+                            throw new CustomException("Date format error!");
+                        }
+                    }
+
+                    if (orderDto.getEndTime() != null) {
+                        try {
+                            predicates.add(criteriaBuilder.lessThanOrEqualTo(orderTime, simpleDateFormat.parse(orderDto.getEndTime())));
+                        } catch (ParseException e) {
+                            throw new CustomException("Date format error!");
+                        }
+                    }
+
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+                }, PageRequest.of(page - 1, pageSize, descending))
+                .map(o -> {
+                    OrderDto orderDtoRes = new OrderDto(o);
+                    orderDtoRes.setOrderDetails(orderDetailService.findAllByOrderId(o.getId()));
+
+                    return orderDtoRes;
+                });
 
         return orderDtos;
     }

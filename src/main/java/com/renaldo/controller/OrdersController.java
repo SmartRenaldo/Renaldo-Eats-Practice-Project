@@ -27,8 +27,8 @@ public class OrdersController {
     }
 
     @GetMapping("/page")
-    public R<Page<OrderDto>> page(int page, int pageSize, String name) {
+    public R<Page<OrderDto>> page(OrderDto orderDto) {
 
-        return R.success(ordersService.findAllByNameContains(page, pageSize, name));
+        return R.success(ordersService.findAllByOrderDto(orderDto));
     }
 }

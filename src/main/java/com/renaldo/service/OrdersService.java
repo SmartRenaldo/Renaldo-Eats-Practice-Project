@@ -8,5 +8,5 @@ import org.springframework.data.domain.Page;
 public interface OrdersService {
     R<String> submit(Orders orders);
 
-    Page<OrderDto> findAllByNameContains(int page, int pageSize, String name);
+    Page<OrderDto> findAllByOrderDto(OrderDto orderDto);
 }
