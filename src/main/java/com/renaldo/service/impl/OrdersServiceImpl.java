@@ -143,6 +143,7 @@ public class OrdersServiceImpl implements OrdersService {
                 .findAll((Specification<Orders>) (root, query, criteriaBuilder) -> {
                     ArrayList<Predicate> predicates = new ArrayList<>();
                     Path<Long> id = root.get("id");
+                    Path<Long> customerId = root.get("customerId");
                     Path<String> name = root.get("name");
                     Path<Date> orderTime = root.get("orderTime");
 
@@ -151,7 +152,7 @@ public class OrdersServiceImpl implements OrdersService {
                     }
 
                     if (currentId != null) {
-                        predicates.add(criteriaBuilder.equal(id, currentId));
+                        predicates.add(criteriaBuilder.equal(customerId, currentId));
                     } else if (orderDto.getId() != null) {
                         predicates.add(criteriaBuilder.equal(id, orderDto.getId()));
                     }
