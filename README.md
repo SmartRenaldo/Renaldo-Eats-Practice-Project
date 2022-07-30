@@ -19,13 +19,15 @@
 
 ### Prerequisites
 
-1.  [Java](https://www.oracle.com/java/technologies/downloads/) \_(version 1.8)
-2.  [Git](https://git-scm.com/downloads)
+1.  [Java](https://www.oracle.com/java/technologies/downloads/) (version 1.8)
+2.  [MySQL](https://dev.mysql.com/downloads/) (version 5.5 or higher)
 
 ### Running locally
 
 1.  go to renaldo_eats/target, and open terminal here
-2.  write "java -jar renaldo_eats-0.0.1-SNAPSHOT.jar" in terminal to start the server
+2.  write 'java -jar renaldo_eats-0.0.1-SNAPSHOT.jar' in terminal to start the server
+3.  open url 'http://localhost/back/page/login/login.html' to open the management system
+4.  open url 'http://localhost/front/page/login.html' to open the mobile application, and switch website to mobile mode (Enter F12 and click 'Toggle device toolbar' if you use Chrome)
 
 ## 🔧 Techniques
 
