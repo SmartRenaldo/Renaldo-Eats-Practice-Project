@@ -13,7 +13,7 @@
 
 ## 📖 Overview
 
-**_This project is an online food delivery solution._** Target users are clients who want to order food from phone application, and restaurants that want to achieve online delivery. The page display consists of two parts, including clients' ordering part of the mobile application, and business management system.
+**_This project is an online food delivery solution._** Target users are clients who want to order food from phone application, and restaurants that want to achieve online delivery. It consists of two parts, including a mobile application, and a business management system.
 
 ## ✈️ Getting started
 
