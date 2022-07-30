@@ -45,4 +45,4 @@ MySQL
 
 ## 📄 Testing
 
-**_Test-driven development._** All methods and functions are tested while developing. Use JUnit for unit testing of all JAVA code methods. Use SLF4J to show JAVA development logs. Use Chrome and node.js to debug front-end code. Implement non-functional testing to improve user experience.
+**_Test-driven development._** All methods and functions were tested while developing. Junit was used for JAVA methods’ testing. SLF4J was used to show JAVA development logs. Debugged front-end code by Chrome and node.js. Implemented non-functional testing to improve user experience.
