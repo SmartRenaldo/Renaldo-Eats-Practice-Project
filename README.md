@@ -19,7 +19,7 @@
 
 ### Prerequisites
 
-1.  [Java](https://www.oracle.com/java/technologies/downloads/) (version 1.8)
+1.  [JAVA](https://www.oracle.com/java/technologies/downloads/) (version 1.8)
 2.  [MySQL](https://dev.mysql.com/downloads/) (version 5.5 or higher)
 
 ### Running locally
