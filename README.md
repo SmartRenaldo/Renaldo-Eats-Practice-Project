@@ -1,9 +1,46 @@
-"# Renaldo-Eats-Practice-Project"
+## Contents
 
-Introduction: This project is an online food delivery solution. Target users are clients who want to order food from phone application, and restaurants that want to achieve online delivery. The page display consists of two parts, including clients' ordering part of the mobile application, and business management system.
+- [Contents](#contents)
+- [📖 Overview](#-overview)
+- [✈️ Getting started](#️-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Running locally](#running-locally)
+- [🔧 Techniques](#-techniques)
+  - [Back End](#back-end)
+  - [Front End](#front-end)
+  - [Database](#database)
+- [📄 Testing](#-testing)
 
-Back end: Used techniques include but not limit to JDK 1.8, Maven, Spring Boot, Spring Data JPA, Hibernate, Query DSL JPA, Spring MVC, RESTful API, Jackson, Druid, ThreadLocal, Slf4j, WebFilter, Session, Lombok, Commons-Collections4, MySQL-Connector-JAVA, JpaAuditing, Dynamic SQL, Stream, Java Mail Sender, Regular Expression, Encryption, Global Exception Handler, Custom Exception, BeanUtils, BigDaecimal, and Data Transfer Object.
+## 📖 Overview
 
-Front end: Front-end material comes from the Internet. Debugged by Chrome and Node.js. Modified code according to requirements and back-end code. Designed Logos by Photoshop.
+**_This project is an online food delivery solution._** Target users are clients who want to order food from phone application, and restaurants that want to achieve online delivery. The page display consists of two parts, including clients' ordering part of the mobile application, and business management system.
 
-Database: MySQL
+## ✈️ Getting started
+
+### Prerequisites
+
+1.  [Java](https://www.oracle.com/java/technologies/downloads/) \_(version 1.8)
+2.  [Git](https://git-scm.com/downloads)
+
+### Running locally
+
+1.  go to renaldo_eats/target, and open terminal here
+2.  write "java -jar renaldo_eats-0.0.1-SNAPSHOT.jar" in terminal to start the server
+
+## 🔧 Techniques
+
+### Back End
+
+Used techniques include but not limit to JDK 1.8, Maven, Spring Boot, Spring Data JPA, Hibernate, Query DSL JPA, Spring MVC, RESTful API, Jackson, Druid, ThreadLocal, Slf4j, WebFilter, Session, Lombok, Commons-Collections4, MySQL-Connector-JAVA, JpaAuditing, Dynamic SQL, Stream, Java Mail Sender, Regular Expression, Encryption, Global Exception Handler, Custom Exception, BeanUtils, BigDaecimal, and Data Transfer Object.
+
+### Front End
+
+Use Vue and Element UI to write the front end code. Debugged by Chrome and Node.js. Modified code according to requirements and back-end code. Designed logo and icons by Photoshop.
+
+### Database
+
+MySQL
+
+## 📄 Testing
+
+**_Test-driven development._** All methods and functions are tested while developing. Use JUnit for unit testing of all JAVA code methods. Use SLF4J to show JAVA development logs. Use Chrome and node.js to debug front-end code. Implement non-functional testing to improve user experience.
