@@ -10,6 +10,7 @@
   - [Front End](#front-end)
   - [Database](#database)
 - [📄 Testing](#-testing)
+- [🎨 Samples](#-samples)
 
 ## 📖 Overview
 
@@ -46,3 +47,15 @@ MySQL
 ## 📄 Testing
 
 **_Test-driven development._** All methods and functions were tested while developing. Junit was used for JAVA methods’ testing. SLF4J was used to show JAVA development logs. Debugged front-end code by Chrome and node.js. Implemented non-functional testing to improve user experience.
+
+## 🎨 Samples
+
+![](sample_images/Management%20System%20Login%20Page.png)
+![](sample_images/Management%20System%20Dish%20Display.png)
+![](sample_images/Management%20System%20Order%20Information%20Display.png)
+![](sample_images/Mobile%20Application%20User%20Page.png)
+![](sample_images/Mobile%20Application%20Ordering%20Page.png)
+![](sample_images/Mobile%20Application%20Add%20Address%20Page.png)
+![](sample_images/Mobile%20Application%20Order%20Successfully%20Page.png)
+![](sample_images/Mobile%20Application%20Order%20Detail%20Page.jpg)
+![](sample_images/Mobile%20Application%20User%20Page.png)
