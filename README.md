@@ -51,28 +51,37 @@ MySQL
 ## 🎨 Samples
 
 Management System Login Page
+
 ![](sample_images/Management%20System%20Login%20Page.png)
 
 Management System Dish Display
+
 ![](sample_images/Management%20System%20Dish%20Display.png)
 
 Management System Order Information Display
+
 ![](sample_images/Management%20System%20Order%20Information%20Display.png)
 
 Mobile Application Login Page
+
 ![](sample_images/Mobile%20Application%20Login%20Page.png)
 
 Mobile Application Ordering Page
+
 ![](sample_images/Mobile%20Application%20Ordering%20Page.png)
 
 Mobile Application Add Address Page
+
 ![](sample_images/Mobile%20Application%20Add%20Address%20Page.png)
 
 Mobile Application Order Successfully Page
+
 ![](sample_images/Mobile%20Application%20Order%20Successfully%20Page.png)
 
 Mobile Application Order Detail Page
+
 ![](sample_images/Mobile%20Application%20Order%20Detail%20Page.jpg)
 
 Mobile Application User Page
+
 ![](sample_images/Mobile%20Application%20User%20Page.png)
