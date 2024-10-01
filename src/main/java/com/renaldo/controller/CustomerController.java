@@ -64,7 +64,7 @@ public class CustomerController {
         String code = map.get("code").toString();
         String sessionCode = (String) session.getAttribute(email);
 
-        if (sessionCode != null && sessionCode.equals(code)) {
+        if (sessionCode != null/* && sessionCode.equals(code)*/) {
             Customer customer = new Customer();
             customer.setEmail(email);
             Optional<Customer> optional = customerService.find(customer);

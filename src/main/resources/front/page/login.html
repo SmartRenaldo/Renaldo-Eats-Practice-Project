@@ -11,18 +11,32 @@
         <link rel="stylesheet" href="../styles/vant.min.css"/>
         <link rel="stylesheet" href="../styles/index.css" />
         <link rel="stylesheet" href="../styles/login.css" />
-      </head>
+    </head>
     <body>
         <div id="login" v-loading="loading">
             <div class="divHead">LOG IN</div>
-            <div class="divContainer">
-                <el-input placeholder=" Please enter your email" v-model="form.email"  maxlength='64'/></el-input>
-                <div class="divSplit"></div>
-                <el-input placeholder=" Please enter the code" v-model="form.code"  maxlength='20'/></el-input>
-                <span @click='getCode'>Send code</span>
+            <div class="logo-container">
+                <img class="logo-image" src="../images/login_logo.png" alt="login image" />
             </div>
-            <el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.email,btnPhone:form.email}" @click="btnLogin">LOG IN</el-button>
+            <div class="divContainer">
+                <el-input placeholder=" Please enter your email" v-model="form.email" maxlength='64'></el-input>
+                <div class="divSplit"></div>
+                <el-input placeholder=" Please enter the code" v-model="form.code" maxlength='20'></el-input>
+                <span @click="getCode" :class="{ disabled: countdown > 0 }">
+                    {{ countdown === 0 ? 'Send Code' : `${countdown}s before resend` }}
+                </span>
+            </div>
+            <el-button :loading="loading" type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.email,btnPhone:form.email}" @click.native.prevent="btnLogin">
+                <span v-if="!loading">Login</span>
+                <span v-else>Login...</span>
+            </el-button>
+
+            <!-- "Sign Up" Link -->
+            <div class="signup-container">
+                <span>Do not have an account? <strong>Sign Up</strong></span>
+            </div>
         </div>
+
         <script src="../../back/plugins/vue/vue.js"></script>
         <script src="../../back/plugins/element-ui/index.js"></script>
         <script src="../js/vant.min.js"></script>
@@ -42,12 +56,11 @@
                     msgFlag:false,
                     loading:false,
                     nodata:false,
-                    errFormat:false
+                    errFormat:false,
+                    countdown: 0, // Countdown timer
+                    timer: null // For holding setInterval ID
                 }
             },
-            computed:{},
-            created(){},
-            mounted(){},
             methods:{
                 getCode(){
                     this.form.code = ''
@@ -55,7 +68,8 @@
                     if (regex.test(this.form.email)) {
                         this.msgFlag = false
                         sendEmail({email:this.form.email})
-                    }else{
+                        this.startCountdown(); // Start the countdown timer
+                    } else {
                         this.msgFlag = true
                     }
                 },
@@ -65,7 +79,7 @@
 
                     if (this.form.email == null || this.form.email == '') {
                         this.nodata = true
-                    }else{
+                    } else {
                         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                         this.errFormat = !regex.test(this.form.email);
                     }
@@ -79,21 +93,62 @@
                             window.requestAnimationFrame(()=>{
                                 window.location.href= '/front/index.html'
                             })                           
-                        }else{
-                            this.$notify({ type:'warning', message:res.msg});
+                        } else {
+                            this.$notify({ type:'warning', message:res.msg });
                         }
-                    }else{
-                        if ( this.nodata  ) {
-                            this.$notify({ type:'warning', message:'Please enter your email'});
-                        } else if ( this.errFormat ) {
-                            this.$notify({ type:'warning', message:'Email format is incorrect!'});
-                        } else if ( this.form.code == null || this.form.code == '' ) {
-                            this.$notify({ type:'warning', message:'Please enter the code!'});
+                    } else {
+                        if (this.nodata) {
+                            this.$notify({ type:'warning', message:'Please enter your email' });
+                        } else if (this.errFormat) {
+                            this.$notify({ type:'warning', message:'Email format is incorrect!' });
+                        } else if (this.form.code == null || this.form.code == '') {
+                            this.$notify({ type:'warning', message:'Please enter the code!' });
                         }
-
                     }
+                },
+                startCountdown(){
+                    this.countdown = 59;
+                    if(this.timer) clearInterval(this.timer); // Clear any existing timer
+
+                    this.timer = setInterval(() => {
+                        if(this.countdown > 0){
+                            this.countdown--;
+                        } else {
+                            clearInterval(this.timer); // Clear timer when countdown is over
+                        }
+                    }, 1000);
                 }
+            },
+            beforeDestroy() {
+                if(this.timer) clearInterval(this.timer); // Clean up on component destruction
             }
         })
     </script>
+
+    <style>
+        .disabled {
+            pointer-events: none;
+            color: gray;
+        }
+        .signup-container {
+            font-size: 14rem;
+            text-align: center;
+            margin-top: 10rem;
+        }
+        .signup-container strong {
+            text-decoration: none;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .logo-container {
+            display: flex;
+            margin-top: 20rem;
+            margin-bottom: 20rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-image {
+            width: 200rem;
+        }
+    </style>
 </html>

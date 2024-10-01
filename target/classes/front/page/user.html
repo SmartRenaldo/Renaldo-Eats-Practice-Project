@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <title>RENALDO EATS</title>
+    <link rel="icon" href="../images/favico.ico">
+    <!--element-ui的样式-->
+    <link rel="stylesheet" href="../../back/plugins/element-ui/index.css" />
+    <!-- 引入样式  -->
+    <link rel="stylesheet" href="../styles/index.css" />
+    <!--引入vant样式-->
+    <link rel="stylesheet" href="../styles/vant.min.css"/>
+    <!--本页面内容的样式-->
+    <link rel="stylesheet" href="../styles/user.css" />
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="user" class="app" v-cloak v-loading="loading">
+        <div class="divHead">
+            <div class="divTitle">
+                <i class="el-icon-arrow-left" @click="goBack"></i>Settings
+            </div>
+            <div class="divUser">
+                <img src="../images/headPage.png"/>
+                <div class="desc">
+                    <div class="divPhone">{{userEmail}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="divContent">
+            <div class="divLinks">
+                <div class="item" @click="toAddressPage">
+                    <img src="../images/locations.png"/>
+                    <span>Address</span>
+                    <i class="el-icon-arrow-right"></i>
+                </div>
+                <div class="divSplit"></div>
+                <div class="item" @click="toOrderPage">
+                    <img src="../images/orders.png"/>
+                    <span>Order History</span>
+                    <i class="el-icon-arrow-right"></i>
+                </div>
+            </div>
+            <div class="divOrders" v-if="order[0]">
+                <div class="title">Latest Order</div>
+                <div class="timeStatus">
+                    <span>{{order[0].orderTime}}</span>
+                    <span>{{getStatus(order[0].status)}}</span>
+                </div>
+                <div class="dishList">
+                    <div v-for="(item,index) in order[0].orderDetails" :key="index" class="item">
+                        <span>{{item.name}}</span>
+                        <span>x{{item.number}}</span>
+                    </div>
+                </div>
+                <div class="result">
+                    <span>Item: {{order[0].sumNum}}</span>
+                    <span class="price">&nbsp;&nbsp;Price: ${{order[0].amount}}</span>
+                </div>
+                <div class="btn" v-if="order[0].status === 4">
+                    <div class="btnAgain" @click="addOrderAgain">One More Order</div>
+                </div>
+            </div>
+            <div class="quitLogin" @click="toPageLogin">
+                LOG OUT
+            </div>
+        </div>
+    </div>
+    <script src="../../back/plugins/vue/vue.js"></script>
+    <script src="../../back/plugins/element-ui/index.js"></script>
+    <script src="../js/vant.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../../back/plugins/axios/axios.min.js"></script>
+    <script src="../js/request.js"></script>
+    <script src="../api/order.js"></script>
+    <script src="../api/login.js"></script>
+    <script>
+        new Vue({
+            el:"#user",
+            data(){
+                return {
+                    loading: true,
+                    form:{
+                        phone:'',
+                        code:''
+                    },
+                    msgFlag:false,
+                    order:[{
+                        orderTime:'',//下单时间
+                        status:undefined,//订单状态 1已结账，2未结账，3已退单，4已完成，5已取消
+                        orderDetails:[{
+                            name:'',
+                            number:undefined,//数量
+                        }],//明细
+                        amount:undefined,//实收金额
+                        sumNum:0,//菜品总数
+                    }],
+                }
+            },
+            computed:{},
+            created(){
+                this.initData()
+            },
+            mounted(){},
+            methods:{
+                goBack(){
+                    history.go(-1)
+                },
+                toAddressPage(){
+                    window.requestAnimationFrame(()=>{
+                        window.location.href = '/front/page/address.html'
+                    })  
+                },
+                toOrderPage(){
+                    window.requestAnimationFrame(()=>{
+                        window.location.href = '/front/page/order.html'
+                    }) 
+                },
+                async initData() {
+                    this.userEmail = sessionStorage.getItem("userEmail")
+                    this.getLatestOrder()
+                    this.loading = false;
+                },
+                async getLatestOrder(){
+                    const params = {
+                        page:1,
+                        pageSize:1
+                    }
+                    const res = await orderPagingApi(params)
+                    if(res.code === 1){
+                        this.order = res.data.content
+                        if(this.order && this.order[0].orderDetails){
+                            let number = 0
+                            this.order[0].orderDetails.forEach(item=>{
+                                number += item.number
+                            })
+                            this.order[0].sumNum = number
+                        }
+                    }else{
+                        this.$notify({ type:'warning', message:res.msg});
+                    }
+                },
+                getStatus(status){
+                    let str = ''
+                    switch(status){
+                        case 1:
+                            str =  'Pending payment'
+                            break;
+                        case 2:
+                            str =  'Preparing'
+                            break;
+                        case 3:
+                            str =  'Delivering'
+                            break;
+                        case 4:
+                            str =  'Completed'
+                            break;
+                        case 5:
+                            str =  'Cancelled'
+                            break;
+
+                    }
+                    return str
+                },
+                async addOrderAgain(){
+                    const res = await orderAgainApi({id:this.order[0].id})
+                    if(res.code === 1){
+                        window.requestAnimationFrame(()=>{
+                            window.location.href = '/front/index.html'
+                        }) 
+                    }else{
+                        this.$notify({ type:'warning', message:res.msg});
+                    }
+                },
+                async toPageLogin(){
+                    const res = await loginoutApi()
+                    if(res.code === 1){
+                        window.requestAnimationFrame(()=>{
+                            window.location.href = '/front/page/login.html'
+                        }) 
+                    }else{
+                        this.$notify({ type:'warning', message:res.msg});
+                    }                
+                }
+            }
+        })
+    </script>
+</body>
+</html>

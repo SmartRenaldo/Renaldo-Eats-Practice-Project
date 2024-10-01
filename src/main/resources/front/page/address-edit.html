@@ -11,9 +11,14 @@
     <link rel="stylesheet" href="../styles/vant.min.css"/>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/address-edit.css" />
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div id="address_edit" class="app">
+<div id="address_edit" class="app" v-cloak v-loading="loading">
     <div class="divHead">
         <div class="divTitle">
             <i class="el-icon-arrow-left" @click="goBack"></i>{{title}}
@@ -21,20 +26,23 @@
     </div>
     <div class="divContent">
         <div class="divItem">
-            <span>Name</span>
-            <el-input placeholder=" Please enter the name" v-model="form.name"  maxlength='10' class="inputUser"/></el-input>
-            <span class="spanChecked" @click="form.gender = '0'">
-                    <i :class="{iActive:form.gender === '0'}"></i>
-                    Female
-                   </span>
-            <span class="spanChecked" @click="form.gender = '1'">
-                    <i :class="{iActive:form.gender === '1'}"></i>
-                    Male
-                   </span>
-            <span class="spanChecked" @click="form.gender = '2'">
-                    <i :class="{iActive:form.gender === '2'}"></i>
-                    Other
-                   </span>
+            <span>Name:</span>
+            <el-input placeholder=" Please enter the name" v-model="form.name"  maxlength='10' style="width: calc(100% - 80rem);"/></el-input>
+        </div>
+        <div class="divItem">
+            <span>Gender:</span>
+            <span class="spanChecked" style="margin-right: 10rem;" @click="form.gender = '0'">
+                <i :class="{iActive:form.gender === '0'}"></i>
+                Female
+            </span>
+            <span class="spanChecked" style="margin-right: 10rem;" @click="form.gender = '1'">
+                <i :class="{iActive:form.gender === '1'}"></i>
+                Male
+            </span>
+            <span class="spanChecked" style="margin-right: 10rem;" @click="form.gender = '2'">
+                <i :class="{iActive:form.gender === '2'}"></i>
+                Other
+            </span>
         </div>
         <div class="divItem">
             <span>Phone:</span>
@@ -64,6 +72,7 @@
         el:"#address_edit",
         data(){
             return {
+                loading: true,
                 title:'New Address',
                 form:{
                     name:'',
@@ -93,7 +102,7 @@
                 const params = parseUrl(window.location.search)
                 this.id = params.id
                 if(params.id){
-                    this.title = 'Edit address'
+                    this.title = 'Edit Address'
                     const res = await addressFindOneApi(params.id)
                     if(res.code === 1){
                         this.form = res.data
@@ -101,6 +110,7 @@
                         this.$notify({ type:'warning', message:res.msg});
                     }
                 }
+                this.loading = false;
             },
             async saveAddress(){
                 const form = this.form

@@ -11,9 +11,14 @@
         <link rel="stylesheet" href="../styles/vant.min.css"/>
         <link rel="stylesheet" href="../styles/index.css" />
         <link rel="stylesheet" href="../styles/address.css" />
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+        </style>
     </head>
     <body>
-        <div id="address" class="app">
+        <div id="address" class="app" v-cloak v-loading="loading">
             <div class="divHead">
                 <div class="divTitle">
                     <i class="el-icon-arrow-left" @click="goBack"></i>Address
@@ -51,6 +56,7 @@
                 el:"#address",
                 data(){
                     return {
+                        loading: true,
                         addressList:[
                     ],
                     }
@@ -81,6 +87,7 @@
                         }else{
                             this.$message.error(res.msg)
                         }
+                        this.loading = false;
                     },
                     async setDefaultAddress(item){
                         if(item.id){

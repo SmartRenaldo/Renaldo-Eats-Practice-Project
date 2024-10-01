@@ -82,6 +82,6 @@ Mobile Application Order Detail Page
 
 ![](sample_images/Mobile%20Application%20Order%20Detail%20Page.jpg)
 
-Mobile Application User Page
+Mobile Application Settings Page
 
-![](sample_images/Mobile%20Application%20User%20Page.png)
+![](sample_images/Mobile%20Application%20Settings%20Page.png)

@@ -69,12 +69,12 @@
           prop="category.name"
           label="CATEGORY"
         ></el-table-column>
-        <el-table-column label="PRICE">
+        <el-table-column label="PRICE" width="120">
           <template slot-scope="scope">
             <span style="margin-right: 10px;">${{ scope.row.price/100 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="STATUS">
+        <el-table-column label="STATUS" width="140">
           <template slot-scope="scope">
             <span style="margin-right: 10px;">{{ scope.row.status == '0' ? 'Not for sale' : 'Selling' }}</span>
           </template>
@@ -86,7 +86,7 @@
         </el-table-column>
         <el-table-column
           label="OPERATION"
-          width="160"
+          width="240"
           align="center"
         >
           <template slot-scope="scope">
@@ -101,7 +101,7 @@
             <el-button
               type="text"
               size="small"
-              class="blueBug"
+              :class="{ blueBug: scope.row.status == '0', delBut: scope.row.status != '0', non: scope.row.status != '0' }"
               @click="statusHandle(scope.row)"
             >
               {{ scope.row.status == '0' ? 'Start Sale' : 'Stop Sale' }}
@@ -221,7 +221,6 @@
             })
           },
 
-          //状态更改
           statusHandle (row) {
             let params = {}
             if (typeof row === 'string' ) {
@@ -235,13 +234,13 @@
               params.id = row.id
               params.status = row.status ? '0' : '1'
             }
+            const operation = params.status === "1" ? "start the sale" : "stop the sale";
             this.dishState = params
-            this.$confirm('Are you sure to change the status of this dish?', 'Prompt', {
+            this.$confirm(`Are you sure to ${operation}?`, 'Prompt', {
               'confirmButtonText': 'Confirm',
               'cancelButtonText': 'Cancel',
               'type': 'warning'
             }).then(() => {
-              // 起售停售---批量起售停售接口
               dishStatusByStatus(this.dishState).then(res => {
                 if (res.code === 1) {
                   this.$message.success('The status of the dish has been changed successfully!')

@@ -248,7 +248,8 @@
             },
             // 取消，派送，完成
             cancelOrDeliveryOrComplete(status, id) {
-                this.$confirm('Are you sure to change the status of this order?', 'Prompt', {
+                const operation = status === 3 ? 'delivered' : 'finished';
+                this.$confirm(`Are you sure you want to mark this item as ${operation}? This action cannot be undone.`, 'Prompt', {
                     'confirmButtonText': 'Confirm',
                     'cancelButtonText': 'Cancel',
                     'type': 'warning'

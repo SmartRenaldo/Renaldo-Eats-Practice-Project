@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column
           prop="sort"
-          label="Sort"
+          label="Priority"
         /></el-table-column>
         <el-table-column
           label="OPERATE"
@@ -111,8 +111,8 @@
             maxlength="64"
           />
         </el-form-item>
-        <el-form-item label="Sort ">
-          <el-input v-model="classData.sort"  type="number" placeholder="Please enter the sort" />
+        <el-form-item label="Priority ">
+          <el-input v-model="classData.sort"  type="number" placeholder="Please enter the priority" />
         </el-form-item>
       </el-form>
       <span
@@ -258,7 +258,7 @@
                       this.$message.error('The request went wrong: ' + err)
                     })
                   } else {
-                    this.$message.error('Sort can only enter numeric types')
+                    this.$message.error('Priority can only enter numeric types')
                   }
                   
               } else {
@@ -279,10 +279,10 @@
                   this.$message.error('The request went wrong: ' + err)
                 })
               } else {
-                this.$message.error('Sort can only enter numeric types')
+                this.$message.error('Priority can only enter numeric types')
               }
             } else {
-              this.$message.error('Please enter category name or sort')
+              this.$message.error('Please enter both category name and priority')
             }
           },
           handleSizeChange (val) {

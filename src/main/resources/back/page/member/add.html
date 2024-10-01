@@ -21,7 +21,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="Username" prop="username">
-          <el-input v-model="ruleForm.username" placeholder="Please enter the username" maxlength="20"/>
+          <el-input v-model="ruleForm.username" placeholder="Please enter the username" maxlength="50"/>
         </el-form-item>
         <el-form-item
           label="Name"
@@ -51,6 +51,7 @@
           <el-radio-group v-model="ruleForm.gender">
             <el-radio label="Male"></el-radio>
             <el-radio label="Female"></el-radio>
+            <el-radio label="Other"></el-radio>
           </el-radio-group>
         </el-form-item>
         <div class="subBox address">
@@ -129,7 +130,7 @@
               if (String(res.code) === '1') {
                 console.log(res.data)
                 this.ruleForm = res.data
-                this.ruleForm.gender = res.data.gender === '0' ? 'Female' : 'Male'
+                this.ruleForm.gender = res.data.gender === '0' ? 'Female' : (res.data.gender === '1' ? 'Male' : 'Other')
                 // this.ruleForm.password = ''
               } else {
                 this.$message.error(res.msg || 'Operation failed')
@@ -142,7 +143,7 @@
                 if (this.actionType === 'add') {
                   const params = {
                     ...this.ruleForm,
-                    gender: this.ruleForm.gender === 'Female' ? '0' : '1'
+                    gender: this.ruleForm.gender === 'Female' ? '0' : (this.ruleForm.gender === 'Male' ? '1' : '2')
                   }
                   addEmployee(params).then(res => {
                     if (res.code === 1) {
@@ -167,7 +168,7 @@
                 } else {
                   const params = {
                     ...this.ruleForm,
-                    gender: this.ruleForm.gender === 'Female' ? '0' : '1'
+                    gender: this.ruleForm.gender === 'Female' ? '0' : this.ruleForm.gender === 'Male' ? '1' : '2'
                   }
                   editEmployee(params).then(res => {
                     if (res.code === 1) {

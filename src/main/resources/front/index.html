@@ -17,9 +17,14 @@
     <link rel="stylesheet" href="styles/index.css" />
     <!--本页面内容的样式-->
     <link rel="stylesheet" href="styles/main.css" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="main" class="app">
+    <div id="main" class="app" v-cloak v-loading="loading">
       <div class="divHead">
         <img src="images/user.png" @click="toUserPage"/>
       </div>
@@ -35,7 +40,7 @@
           </div>
         </div>
         <div class="divDesc">
-          Discription: RENALDO EATS is a fast food restaurant, aiming to provide you with fancy food.
+          Description: RENALDO EATS is a fast food restaurant, aiming to provide you with fancy food.
         </div>
       </div>
       <div class="divBody">
@@ -229,8 +234,9 @@
   <script>
       new Vue({
           el:'#main',
-          data(){
+          data() {
             return {
+              loading: true, // Initialize loading state to 
               //左边菜品类别index
               activeType:0,
               categoryList:[],
@@ -292,7 +298,7 @@
           },
           methods:{
             //初始化数据
-            initData(){
+            async initData(){
               Promise.all([categoryListApi(),cartListApi({})]).then(res=>{
                 //获取分类数据
                 if(res[0].code === 1){
@@ -314,7 +320,11 @@
                 }else{
                   this.$notify({ type:'warning', message:res[1].msg});
                 }
-              })
+                this.loading = false;
+              }).catch(error => {
+                // Handle errors if needed
+                this.loading = false; // Ensure loading is also set to false in case of error
+              });
             },
             //分类点击
             categoryClick(index,id,type){

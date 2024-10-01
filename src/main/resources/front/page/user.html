@@ -14,17 +14,21 @@
     <link rel="stylesheet" href="../styles/vant.min.css"/>
     <!--本页面内容的样式-->
     <link rel="stylesheet" href="../styles/user.css" />
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="user" class="app">
+    <div id="user" class="app" v-cloak v-loading="loading">
         <div class="divHead">
             <div class="divTitle">
-                <i class="el-icon-arrow-left" @click="goBack"></i>User Management
+                <i class="el-icon-arrow-left" @click="goBack"></i>Settings
             </div>
             <div class="divUser">
                 <img src="../images/headPage.png"/>
                 <div class="desc">
-<!--                    <div class="divName">林之迷 <img src="../images/women.png"/></div>-->
                     <div class="divPhone">{{userEmail}}</div>
                 </div>
             </div>
@@ -39,7 +43,7 @@
                 <div class="divSplit"></div>
                 <div class="item" @click="toOrderPage">
                     <img src="../images/orders.png"/>
-                    <span>Order Hostory</span>
+                    <span>Order History</span>
                     <i class="el-icon-arrow-right"></i>
                 </div>
             </div>
@@ -81,6 +85,7 @@
             el:"#user",
             data(){
                 return {
+                    loading: true,
                     form:{
                         phone:'',
                         code:''
@@ -100,7 +105,6 @@
             },
             computed:{},
             created(){
-                this.userEmail =sessionStorage.getItem("userEmail")
                 this.initData()
             },
             mounted(){},
@@ -118,8 +122,10 @@
                         window.location.href = '/front/page/order.html'
                     }) 
                 },
-                initData(){
+                async initData() {
+                    this.userEmail = sessionStorage.getItem("userEmail")
                     this.getLatestOrder()
+                    this.loading = false;
                 },
                 async getLatestOrder(){
                     const params = {
