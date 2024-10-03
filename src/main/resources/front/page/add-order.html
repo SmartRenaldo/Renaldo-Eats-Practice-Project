@@ -6,15 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
     <title>RENALDO EATS</title>
     <link rel="icon" href="./../images/favico.ico">
-    <!--不同屏幕尺寸根字体设置-->
     <script src="./../js/base.js"></script>
-    <!--element-ui的样式-->
     <link rel="stylesheet" href="../../back/plugins/element-ui/index.css" />
-    <!--引入vant样式-->
     <link rel="stylesheet" href="../styles/vant.min.css" />
-    <!-- 引入样式  -->
     <link rel="stylesheet" href="../styles/index.css" />
-    <!--本页面内容的样式-->
+    <link rel="stylesheet" href="../styles/common.css" />
     <link rel="stylesheet" href="./../styles/add-order.css" />
     <style>
         [v-cloak] {
@@ -89,7 +85,7 @@
             <span>{{ goodsPrice }}</span>
         </div>
         <div class="divPrice"></div>
-        <div :class="{ btnSubmitActive: cartData.length > 0, btnSubmit: cartData.length < 1 }" @click="goToPaySuccess">
+        <div class="el-button--primary" @click="goToPaySuccess">
             Submit order
         </div>
     </div>

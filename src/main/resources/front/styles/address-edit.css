@@ -141,6 +141,14 @@
   margin-top: 20rem;
 }
 
+#address_edit .divContent .divSave.is-active {
+  background:#cc5a75;
+}
+
+#address_edit .divContent .divSave:active {
+  background:#cc5a75;
+}
+
 #address_edit .divContent .divDelete {
   height: 36rem;
   opacity: 1;

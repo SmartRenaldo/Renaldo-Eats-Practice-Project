@@ -245,8 +245,7 @@
   margin-top: 10rem;
   z-index: 3000;
   position: absolute;
-  /* bottom: 35rem; */
-  bottom: 12rem;
+  bottom: 24rem;
   left: 50%;
   transform: translate(-50%, 0);
 }

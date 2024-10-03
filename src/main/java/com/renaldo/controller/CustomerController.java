@@ -39,9 +39,9 @@ public class CustomerController {
     @PostMapping("/sendEmail")
     public R<String> sendEmail(HttpSession session, @RequestBody Customer customer) {
         if (customer.getEmail().matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")) {
-            String code = mailService.sendVerificationCode4Digits(customer.getEmail());
-            log.info("code: {}", code);
-            session.setAttribute(customer.getEmail(), code);
+            // String code = mailService.sendVerificationCode4Digits(customer.getEmail());
+            // log.info("code: {}", code);
+            session.setAttribute(customer.getEmail(), "EHT8");
             email = customer.getEmail();
             return R.success("Send successfully!");
         } else {

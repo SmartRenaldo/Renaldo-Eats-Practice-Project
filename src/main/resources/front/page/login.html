@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="../../back/plugins/element-ui/index.css" />
         <link rel="stylesheet" href="../styles/vant.min.css"/>
         <link rel="stylesheet" href="../styles/index.css" />
+        <link rel="stylesheet" href="../styles/common.css" />
         <link rel="stylesheet" href="../styles/login.css" />
     </head>
     <body>
@@ -26,7 +27,12 @@
                     {{ countdown === 0 ? 'Send Code' : `${countdown}s before resend` }}
                 </span>
             </div>
-            <el-button :loading="loading" type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.email,btnPhone:form.email}" @click.native.prevent="btnLogin">
+            <el-button
+                :loading="loading"
+                :class="{btnSubmit:1===1,btnNoPhone:!form.email}"
+                type="primary"
+                @click.native.prevent="btnLogin"
+            >
                 <span v-if="!loading">Login</span>
                 <span v-else>Login...</span>
             </el-button>
@@ -50,7 +56,7 @@
             data(){
                 return {
                     form:{
-                        email:'',
+                        email:'customer@gmail.com',
                         code:''
                     },
                     msgFlag:false,
